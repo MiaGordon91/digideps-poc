@@ -3,28 +3,36 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
-    public function index(): JsonResponse
+
+    #[Route('/', name: 'home')]
+    public function home(): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/UserController.php',
+        return $this->render('index.html.twig', [
+            'title' => 'Digideps App'
+        ]);
+    }
+
+    #[Route('/user', name: 'user')]
+    public function index(): Response
+    {
+        return $this->render('index.html.twig', [
+            'title' => 'Digideps App'
         ]);
     }
 
 
-    /**
-     * @return array
-     * @Route( "/test" , name: "testmethod")
-     */
-    public function testMethod(): array
-    {
-       return [];
-    }
+//    /**
+//     * @return array
+//     * @Route( "/test" , name: "testmethod")
+//     */
+//    public function testMethod(): array
+//    {
+//       return [];
+//    }
 
 }
