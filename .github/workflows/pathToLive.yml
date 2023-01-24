@@ -3,7 +3,8 @@ name: Path To Live
 
 on:
   push:
-    branches-ignore: [ master, main ]
+#    branches-ignore: [main]
+
 #  pull_request:
 #    branches: [main]
 
