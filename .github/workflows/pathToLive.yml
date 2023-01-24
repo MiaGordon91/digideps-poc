@@ -2,8 +2,10 @@
 name: Path To Live
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches-ignore: [ master, main ]
+#  pull_request:
+#    branches: [main]
 
 jobs:
   lint:
