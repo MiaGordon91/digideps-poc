@@ -8,6 +8,6 @@ class ArrayHasKeyTest extends TestCase
 {
     public function testFailure(): void
     {
-        $this->assertArrayHasKey('foo', ['bar' => 'baz']);
+        $this->assertArrayHasKey('bar', ['bar' => 'baz']);
     }
 }
