@@ -67,4 +67,14 @@ describe('login page', () => {
       cy.url().should('include', '/dashboard')
       cy.url().should('eq', 'http://localhost:8000/dashboard')
   });
+
+  it('should error if user enters incorrect password', () =>
+  {
+    cy.visit('http://localhost:8000/login')
+    cy.get('[id=inputEmail]').type(updatedEmail)
+    cy.get('[id=inputPassword]').type('12345')
+    cy.get('#signIn').click()
+    cy.get('#logInError').should('be.visible')
+
+  });
 });
