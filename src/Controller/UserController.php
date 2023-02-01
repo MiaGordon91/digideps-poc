@@ -8,23 +8,21 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-
     #[Route('/', name: 'home')]
     public function home(): Response
     {
         return $this->render('index.html.twig', [
-            'title' => 'Digideps App'
+            'title' => 'Homepage',
         ]);
     }
 
-    #[Route('/user', name: 'user')]
-    public function index(): Response
+    #[Route('/money_out', name: 'money_out')]
+    public function moneyOut(): Response
     {
-        return $this->render('index.html.twig', [
-            'title' => 'Digideps App'
+        return $this->render('test.html.twig', [
+            'title' => 'Money out',
         ]);
     }
-
 
 //    /**
 //     * @return array
@@ -34,5 +32,4 @@ class UserController extends AbstractController
 //    {
 //       return [];
 //    }
-
 }
