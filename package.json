@@ -15,6 +15,7 @@
     "esbuild": "0.17.5",
     "esbuild-sass-plugin": "^2.0.1",
     "jquery": "^3.6.3",
+    "random-email": "^1.0.3",
     "sass": "^1.57.1"
   },
   "devDependencies": {
