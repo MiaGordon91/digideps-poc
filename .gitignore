@@ -26,3 +26,7 @@
 
 bin/
 node_modules/
+<<<<<<< Updated upstream
+=======
+vendor/
+>>>>>>> Stashed changes
