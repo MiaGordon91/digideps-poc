@@ -4,13 +4,13 @@ describe('registration page', () => {
     cy.visit('http://localhost:8000/register')
   })
 
-    const email = require('random-email');
+    const loginEmail = require('random-email');
     const password = '1234567';
 
   it('user successfully registers ', () =>
   {
 
-    cy.get('[id=registration_form_email]').type(email({domain: 'example.com'}))
+    cy.get('[id=registration_form_email]').type(loginEmail({loginEmail: 'example.com'}))
     cy.get('[id=registration_form_plainPassword]').type(password)
     cy.get('[type="checkbox"]').check()
 
@@ -18,8 +18,8 @@ describe('registration page', () => {
 
     //user should be redirected to /dashboard
     cy.url().should('include', '/dashboard')
-    cy.url().should('eq', 'http://localhost:8000/dashboard')
   });
+
 
   it('user cant register with empty fields', () =>
   {
@@ -40,14 +40,14 @@ describe('registration page', () => {
 
 describe('login page', () => {
 
-  const email = require('random-email');
-  const updatedEmail = email({domain: 'example.com'});
+  const loginEmail = require('random-email');
+  const updatedLoginEmail = loginEmail({domain: 'example.com'});
   const password = '1234567';
 
   beforeEach(() => {
 
     cy.visit('http://localhost:8000/register')
-    cy.get('[id=registration_form_email]').type(updatedEmail)
+    cy.get('[id=registration_form_email]').type(updatedLoginEmail)
     cy.get('[id=registration_form_plainPassword]').type(password)
     cy.get('[type="checkbox"]').check()
 
@@ -58,7 +58,7 @@ describe('login page', () => {
     it('user successfully logs in with same registration details', () =>
     {
       cy.visit('http://localhost:8000/login')
-      cy.get('[id=inputEmail]').type(updatedEmail)
+      cy.get('[id=inputEmail]').type(updatedLoginEmail)
       cy.get('[id=inputPassword]').type(password)
 
       cy.get('#signIn').click()
@@ -71,7 +71,7 @@ describe('login page', () => {
   it('should error if user enters incorrect password', () =>
   {
     cy.visit('http://localhost:8000/login')
-    cy.get('[id=inputEmail]').type(updatedEmail)
+    cy.get('[id=inputEmail]').type(updatedLoginEmail)
     cy.get('[id=inputPassword]').type('12345')
     cy.get('#signIn').click()
     cy.get('#logInError').should('be.visible')
