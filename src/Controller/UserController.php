@@ -19,7 +19,7 @@ class UserController extends AbstractController
     #[Route('/money_out', name: 'money_out')]
     public function moneyOut(): Response
     {
-        return $this->render('test.html.twig', [
+        return $this->render('moneyOut.html.twig', [
             'title' => 'Money out',
         ]);
     }
