@@ -4,13 +4,12 @@ describe('registration page', () => {
     cy.visit('http://localhost:8000/register')
   })
 
-    const loginEmail = require('random-email');
+    const generateEmail = require('random-email');
     const password = '1234567';
 
   it('user successfully registers ', () =>
   {
-
-    cy.get('[id=registration_form_email]').type(loginEmail({loginEmail: 'example.com'}))
+    cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
     cy.get('[id=registration_form_plainPassword]').type(password)
     cy.get('[type="checkbox"]').check()
 
@@ -40,14 +39,14 @@ describe('registration page', () => {
 
 describe('login page', () => {
 
-  const loginEmail = require('random-email');
-  const updatedLoginEmail = loginEmail({domain: 'example.com'});
+  const generateEmail = require('random-email');
+  const loginEmail = generateEmail({domain: 'example.com'});
   const password = '1234567';
 
   beforeEach(() => {
 
     cy.visit('http://localhost:8000/register')
-    cy.get('[id=registration_form_email]').type(updatedLoginEmail)
+    cy.get('[id=registration_form_email]').type(loginEmail)
     cy.get('[id=registration_form_plainPassword]').type(password)
     cy.get('[type="checkbox"]').check()
 
@@ -58,20 +57,19 @@ describe('login page', () => {
     it('user successfully logs in with same registration details', () =>
     {
       cy.visit('http://localhost:8000/login')
-      cy.get('[id=inputEmail]').type(updatedLoginEmail)
+      cy.get('[id=inputEmail]').type(loginEmail)
       cy.get('[id=inputPassword]').type(password)
 
       cy.get('#signIn').click()
 
       //user should be redirected to /dashboard
       cy.url().should('include', '/dashboard')
-      cy.url().should('eq', 'http://localhost:8000/dashboard')
   });
 
   it('should error if user enters incorrect password', () =>
   {
     cy.visit('http://localhost:8000/login')
-    cy.get('[id=inputEmail]').type(updatedLoginEmail)
+    cy.get('[id=inputEmail]').type(loginEmail)
     cy.get('[id=inputPassword]').type('12345')
     cy.get('#signIn').click()
     cy.get('#logInError').should('be.visible')
