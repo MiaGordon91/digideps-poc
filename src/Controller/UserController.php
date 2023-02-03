@@ -2,12 +2,18 @@
 
 namespace App\Controller;
 
+use App\Service\CsvBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+    public function __construct(
+        private CsvBuilder $csvBuilder
+    ) {
+    }
+
     #[Route('/', name: 'home')]
     public function home(): Response
     {
@@ -21,15 +27,17 @@ class UserController extends AbstractController
     {
         return $this->render('moneyOut.html.twig', [
             'title' => 'Money out',
+            'link' => 'Test',
         ]);
     }
 
-//    /**
-//     * @return array
-//     * @Route( "/test" , name: "testmethod")
-//     */
-//    public function testMethod(): array
-//    {
-//       return [];
-//    }
+    #[Route('/download_csv', name: 'generate_money_out_csv')]
+    public function generatingCsv(): Response
+    {
+        $csv = $this->csvBuilder->generateCsv();
+
+        $response = new Response($csv);
+
+        return $response;
+    }
 }
