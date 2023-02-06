@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.6.4",
+    "cypress-downloadfile": "^1.2.3",
     "esbuild": "0.17.5",
     "esbuild-sass-plugin": "^2.0.1",
     "jquery": "^3.6.3",
@@ -19,6 +20,7 @@
     "sass": "^1.57.1"
   },
   "devDependencies": {
+    "cy-verify-downloads": "^0.1.11",
     "cypress": "^12.4.1"
   }
 }
