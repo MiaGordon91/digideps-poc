@@ -25,3 +25,5 @@
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 .idea
+
+cypress/downloads/

@@ -18,7 +18,7 @@ class UserController extends AbstractController
     public function home(): Response
     {
         return $this->render('index.html.twig', [
-            'title' => 'Homepage',
+            'title' => 'Complete the deputy report',
         ]);
     }
 
