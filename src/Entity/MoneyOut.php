@@ -29,6 +29,10 @@ class MoneyOut
     #[ORM\JoinColumn(nullable: false)]
     private ?user $deputy_user = null;
 
+    #[ORM\ManyToOne(inversedBy: '$categoryTypes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?moneyOutCategories $category_type = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +94,18 @@ class MoneyOut
     public function setUserId(?user $deputy_user): self
     {
         $this->deputy_user = $deputy_user;
+
+        return $this;
+    }
+
+    public function getPaymentCategory(): ?moneyOutCategories
+    {
+        return $this->category_type;
+    }
+
+    public function setPaymentCategory(?moneyOutCategories $category_type): self
+    {
+        $this->category_type = $category_type;
 
         return $this;
     }
