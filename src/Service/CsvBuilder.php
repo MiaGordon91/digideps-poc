@@ -5,7 +5,6 @@ namespace App\Service;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Protection;
 
 class CsvBuilder
 {
@@ -21,16 +20,17 @@ class CsvBuilder
         $sheet->mergeCells('A1:D1');
         $sheet->getStyle('A1:D2')->getFont()->setBold(true);
         $sheet->getStyle('A1:D1')->getFont()->setSize(18);
+
         $sheet->getStyle('A1:D50')
             ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        $sheet->getStyle('A2:D2')
+            ->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
         $sheet->getStyle('A1:D50')
             ->getAlignment()->setWrapText(true);
 
-        $sheet->getRowDimension('2')->setRowHeight(20);
-
-//        Redundant column isnt removing - need to fix this!
-        $sheet->removeColumn('E');
+        $sheet->getRowDimension('2')->setRowHeight(50);
 
         /*
          * Set header for the 'Payment Type' column
@@ -52,7 +52,7 @@ class CsvBuilder
         /*
          * List drop down options.
          */
-        $validationDropDown->setFormula1('"Care Fee, Broadband, Medical Expenses, Wifi"');
+        $validationDropDown->setFormula1('"Care Fees, Clothes, Broadband, Council Tax, Electricity, Food, Rent, Medical Expenses, Mortgage, Personal Allowance, Water, Wifi"');
 
         /*
          * Do not allow empty value.
@@ -100,7 +100,7 @@ class CsvBuilder
         /*
          * Set header for the 'Description' column
          */
-        $sheet->setCellValue('C2', 'Bank Account Alias');
+        $sheet->setCellValue('C2', 'Type of Bank Account (e.g. Current, Packaged, Savings)');
         $sheet->getColumnDimension('C')->setWidth(20);
 
         /*
@@ -108,10 +108,6 @@ class CsvBuilder
          */
         $sheet->setCellValue('D2', 'Description (if required)');
         $sheet->getColumnDimension('D')->setWidth(50);
-
-//        Attempting to protect title and headers - need to fix
-//        $sheet->getProtection()->setSheet(true);
-//        $sheet->getStyle('A3:D50')->getProtection()->setLocked(\PhpOffice\PhpSpreadsheet\Style\Protection::PROTECTION_UNPROTECTED);
 
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="money_out_template.xlsx"');
