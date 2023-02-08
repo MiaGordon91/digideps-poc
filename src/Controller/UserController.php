@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Service\CsvBuilder;
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     public function __construct(
-//        private CsvBuilder $csvBuilder
+        private CsvBuilder $csvBuilder
     ) {
     }
 
@@ -32,15 +31,11 @@ class UserController extends AbstractController
         ]);
     }
 
-//    #[Route('/download_csv', name: 'generate_money_out_csv')]
-//    public function generatingCsv(): Response
-//    {
-// //        $spreadsheet = new CsvBuilder();
-// //        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-// //        $writer->save('php://output');
-// //
-// //        $csv = $this->csvBuilder->generateCsv();
-// //
-// //        return new Response($csv);
-//    }
+    #[Route('/download_csv', name: 'generate_money_out_csv')]
+    public function generatingCsv(): Response
+    {
+        $csv = $this->csvBuilder->generateCsv();
+
+        return new Response($csv);
+    }
 }
