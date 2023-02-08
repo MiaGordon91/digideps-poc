@@ -27,3 +27,9 @@
 .idea
 
 cypress/downloads/
+# .DS_Store in any directory
+**/.DS_Store
+# IDE config files
+/.idea/*
+# copies of asset files
+/dist/*
