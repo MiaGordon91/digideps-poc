@@ -36,8 +36,6 @@ class UserController extends AbstractController
     {
         $csv = $this->csvBuilder->generateCsv();
 
-        $response = new Response($csv);
-
-        return $response;
+        return new Response($csv);
     }
 }
