@@ -4,8 +4,7 @@ describe('money out page', () => {
         cy.visit('http://localhost:8000/money_out')
     })
 
-    it('user successfully downloads money out file', () =>
-    {
+    it('user successfully downloads money out file', () => {
         //Event listener added for 'click' which fires a page reload and triggers page load event
         // to avoid getting page load timeout and allows future cypress commands to work
         cy.window().document().then(function (doc) {
