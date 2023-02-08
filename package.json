@@ -7,12 +7,11 @@
   "scripts": {
     "test": "test",
     "build": "node build.js",
-    "css": "sass --load-path . --quiet ./assets/main.scss ./dist/all.css",
+    "css": "sass --load-path . --quiet ./assets/main.scss ./public/build/all.css",
     "cypress:open": "cypress open"
   },
   "dependencies": {
     "@ministryofjustice/frontend": "^1.6.4",
-    "cypress-downloadfile": "^1.2.3",
     "esbuild": "0.17.5",
     "esbuild-sass-plugin": "^2.0.1",
     "jquery": "^3.6.3",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "cy-verify-downloads": "^0.1.11",
-    "cypress": "^12.4.1"
+    "cypress": "^12.4.1",
+    "cypress-downloadfile": "^1.2.3"
   }
 }

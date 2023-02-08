@@ -13,26 +13,33 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
         {% block stylesheets %}
-         <link rel="stylesheet" href="dist/all.css">
-{#        <link rel="stylesheet" type="text/css" href="/dist/all.css">#}
+            <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+            <!--[if !IE 8]><!-->
+            <link rel="stylesheet" href="/govuk-frontend-4.5.0.min.css">
+            <!--<![endif]-->
+            <!--[if IE 8]>
+            <link rel="stylesheet" href="/govuk-frontend-ie8-4.5.0.min.css">
+            <![endif]-->
         {% endblock %}
 
-        {% block javascript %}
-            <script src="dist/main.js"></script>
-        {% endblock %}
+        <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="/assets/images/favicon.ico" type="image/x-icon">
+        <link rel="mask-icon" href="/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/govuk-apple-touch-icon-180x180.png">
+        <link rel="apple-touch-icon" sizes="167x167" href="/assets/images/govuk-apple-touch-icon-167x167.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/govuk-apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" href="/assets/images/govuk-apple-touch-icon.png">
 
-        <link rel="shortcut icon" sizes="16x16 32x32 48x48" href="dist/assets/images/favicon.ico" type="image/x-icon">
-        <link rel="mask-icon" href="dist/assets/images/govuk-mask-icon.svg" color="#0b0c0c">
-        <link rel="apple-touch-icon" sizes="180x180" href="dist/assets/images/govuk-apple-touch-icon-180x180.png">
-        <link rel="apple-touch-icon" sizes="167x167" href="dist/assets/images/govuk-apple-touch-icon-167x167.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="dist/assets/images/govuk-apple-touch-icon-152x152.png">
-        <link rel="apple-touch-icon" href="dist/assets/images/govuk-apple-touch-icon.png">
-        <link href="dist/all.css" rel="stylesheet">
     </head>
 
     <body class="govuk-template__body ">
+
         <script>
             document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+        </script>
+        <!-- component HTML -->
+        <script src="/govuk-frontend-4.5.0.min.js"></script>
+        <script>
+            window.GOVUKFrontend.initAll()
         </script>
 
         <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
@@ -62,7 +69,7 @@
         {% block body %}{% endblock %}
 
 
-        <footer class="govuk-footer " role="contentinfo" style= "padding-top: 20px">
+        <footer class="govuk-footer " role="contentinfo">
             <div class="govuk-width-container ">
                 <div class="govuk-footer__meta">
                     <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
@@ -80,11 +87,6 @@
                 </div>
             </div>
         </footer>
-
-{#        <script src="./node_modules/govuk-frontend/govuk/all.js"></script>#}
-{#            <script>#}
-{#                window.GOVUKFrontend.initAll()#}
-{#            </script>#}
 
     </body>
 </html>

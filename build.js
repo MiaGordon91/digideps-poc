@@ -10,9 +10,12 @@ import { cp } from 'fs/promises';
     let config = {
         entrypoints : ['./assets/main.js'],
         copy_files : {
-            './node_modules/govuk-frontend/govuk/assets':'./dist/assets'
+            './assets/fonts':'./public/build/fonts',
+            './assets/images':'./public/build/images',
+            './assets/main.js':'./public/build/main.js',
+            './assets/main.scss':'./public/build/main.scss'
         },
-        out_dir:'./dist'
+        out_dir:'./public'
     }
 
     //files to copy (uses experimental node cp)
