@@ -31,5 +31,3 @@ cypress/downloads/
 **/.DS_Store
 # IDE config files
 /.idea/*
-# copies of asset files
-/dist/*
