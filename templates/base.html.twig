@@ -32,17 +32,11 @@
     </head>
 
     <body class="govuk-template__body ">
-
         <script>
             document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
         </script>
         <!-- component HTML -->
-        <script src="/govuk-frontend-4.5.0.min.js"></script>
-        <script>
-            window.GOVUKFrontend.initAll()
-        </script>
-
-        <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+{#        <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>#}
         <header class="govuk-header" role="banner" data-module="govuk-header">
             <div class="govuk-header__container govuk-width-container">
                 <div class="govuk-header__logo">
@@ -68,7 +62,6 @@
 
         {% block body %}{% endblock %}
 
-
         <footer class="govuk-footer " role="contentinfo">
             <div class="govuk-width-container ">
                 <div class="govuk-footer__meta">
@@ -87,6 +80,11 @@
                 </div>
             </div>
         </footer>
+        <script src="/govuk-frontend-4.5.0.min.js"></script>
+        <script>
+            window.GOVUKFrontend.initAll()
+        </script>
 
     </body>
+
 </html>

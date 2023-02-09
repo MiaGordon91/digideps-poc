@@ -1,20 +1,20 @@
 {%  extends "base.html.twig" %}
 
     {% block body %}
+
         <div class="govuk-width-container">
 
             <a href="#" class="govuk-back-link">Back</a>
             <main class="govuk-main-wrapper">
                 <div class="govuk-grid-row">
-                    <p class="govuk-grid-column-two-thirds">
-                        <h1 class="govuk-heading-xl">{{ title }}</h1>
-                        <link rel="apple-touch-icon" sizes="180x180" href="dist/assets/images/govuk-apple-touch-icon-180x180.png">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h1 class="govuk-heading-xl ">{{ title }} </h1>
                         <p class="govuk-body">In this section, we ask you about money paid out of [clients first name] accounts between [insert report start date] and [report end date]</p>
-                        <p class ="govuk-body" style="font-weight: bold">Enter a total amount or individual amounts for each type of payment.</p>
+                        <p class ="govuk-body govuk-body govuk-!-font-weight-bold">Enter a total amount or individual amounts for each type of payment.</p>
                         <p class ="govuk-body">For example, you can add one payment that covers the cost of rent for the whole reporting period, or you can add 12 payments - one for each month's rent</p>
 
 
-                    <h3>1. Download Money Out Spreadsheet Template</h3>
+                    <h3 class="govuk-heading-s">1. Download Money Out Spreadsheet Template</h3>
                     <p class="govuk-body">In order to submit your annual report, please action the following:</p>
                         <ul class="govuk-list">
                             <li>Download the money out spreadsheet template by clicking the 'Download' button below</li>
@@ -23,23 +23,23 @@
                             <li>Save and continue</li>
                         </ul>
 
-                    <a href="{{ path('generate_money_out_csv') }}" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button" id="downloadMoneyOut">
-                    <button class="govuk-button" data-module="govuk-button">
-                        Download template
+
+                    <button class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                        <a href="{{ path('generate_money_out_csv') }}" role="button" draggable="false" id="downloadMoneyOut">
+                            Download template
+                        </a>
                     </button>
-                    </a>
+                    </div>
 
                 </div>
 
 
-                <div class="govuk-form-group" style="padding-top: 20px">
+                <div class="govuk-form-group govuk-!-static-padding-top-2" >
                     <label class="govuk-label" for="file-upload-1" >
                         Upload a file
                     </label>
                     <input class="govuk-file-upload" id="file-upload-1" name="file-upload-1" type="file">
                 </div>
-
-                <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
                 <button class="govuk-button" data-module="govuk-button">
                     Save and continue
