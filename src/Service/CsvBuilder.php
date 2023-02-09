@@ -109,10 +109,12 @@ class CsvBuilder
         $sheet->setCellValue('D2', 'Description (if required)');
         $sheet->getColumnDimension('D')->setWidth(50);
 
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="money_out_template.xlsx"');
+//        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//        header('Content-Disposition: attachment;filename="money_out_template.xlsx"');
+//
+//        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+//        $writer->save('php://output');
 
-        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $writer->save('php://output');
+        return $spreadsheet;
     }
 }

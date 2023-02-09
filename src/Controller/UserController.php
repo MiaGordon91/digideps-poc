@@ -3,16 +3,18 @@
 namespace App\Controller;
 
 use App\Service\CsvBuilder;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    public function __construct(
-        private CsvBuilder $csvBuilder
-    ) {
-    }
+//    public function __construct(CsvBuilder $csvBuilder)
+//    {
+//        $this->csvBuilder = $csvBuilder;
+//    }
 
     #[Route('/', name: 'home')]
     public function home(): Response
@@ -27,15 +29,29 @@ class UserController extends AbstractController
     {
         return $this->render('moneyOut.html.twig', [
             'title' => 'Money out',
-            'link' => 'Test',
         ]);
     }
 
     #[Route('/download_csv', name: 'generate_money_out_csv')]
-    public function generatingCsv(): Response
+    public function generatingCsv()
     {
-        $csv = $this->csvBuilder->generateCsv();
+//        $spreadsheet = $this->csvBuilder->generateCsv();
+//
+//        header('Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//        header('Content-Disposition:attachment;filename="money_out_template.xlsx"');
+//
+//        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+//        $writer->save('php://output');
 
-        return new Response($csv);
+//        $response = new Response($spreadsheet);
+//        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//        $disposition = $response->headers->makeDisposition(
+//            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+//            'money_out_template.xlsx'
+//        );
+//
+//        $response->headers->set('Content-Disposition', $disposition);
+
+//        return $writer;
     }
 }
