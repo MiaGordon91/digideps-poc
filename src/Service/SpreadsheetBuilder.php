@@ -40,7 +40,7 @@ class SpreadsheetBuilder
         /**
          * Set the 'drop down list' validation on column A.
          */
-        $validationDropDown = $sheet->getDataValidation('A3:A30');
+        $validationDropDown = $sheet->getDataValidation('A3:A50');
 
         /*
          * Since the validation is for a 'drop down list',
