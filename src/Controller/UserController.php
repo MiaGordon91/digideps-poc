@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
-use App\Service\CsvBuilder;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Service\SpreadsheetBuilder;
+use PhpOffice\PhpSpreadsheet\Writer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-//    public function __construct(CsvBuilder $csvBuilder)
-//    {
-//        $this->csvBuilder = $csvBuilder;
-//    }
+    private SpreadsheetBuilder $spreadsheetBuilder;
+
+    public function __construct(SpreadsheetBuilder $spreadsheetBuilder)
+    {
+        $this->spreadsheetBuilder = $spreadsheetBuilder;
+    }
 
     #[Route('/', name: 'home')]
     public function home(): Response
@@ -32,26 +35,27 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/download_csv', name: 'generate_money_out_csv')]
-    public function generatingCsv()
+    #[Route('/download_spreadsheet', name: 'generate_money_out_spreadsheet')]
+    public function generatingSpreadsheet()
     {
-//        $spreadsheet = $this->csvBuilder->generateCsv();
-//
-//        header('Content-Type:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//        header('Content-Disposition:attachment;filename="money_out_template.xlsx"');
-//
-//        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-//        $writer->save('php://output');
+        $spreadsheet = $this->spreadsheetBuilder->generateSpreadsheet();
 
-//        $response = new Response($spreadsheet);
-//        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//        $disposition = $response->headers->makeDisposition(
-//            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-//            'money_out_template.xlsx'
-//        );
-//
-//        $response->headers->set('Content-Disposition', $disposition);
+        $writer = new Writer\Xls($spreadsheet);
 
-//        return $writer;
+        $response = new StreamedResponse(
+            function () use ($writer) {
+                $writer->save('php://output');
+            }
+        );
+
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'money_out_template.xlsx'
+        );
+
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
     }
 }

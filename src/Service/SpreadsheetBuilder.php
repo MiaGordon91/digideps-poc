@@ -2,13 +2,12 @@
 
 namespace App\Service;
 
-use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-class CsvBuilder
+class SpreadsheetBuilder
 {
-    public function generateCsv()
+    public function generateSpreadsheet()
     {
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -108,12 +107,6 @@ class CsvBuilder
          */
         $sheet->setCellValue('D2', 'Description (if required)');
         $sheet->getColumnDimension('D')->setWidth(50);
-
-//        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//        header('Content-Disposition: attachment;filename="money_out_template.xlsx"');
-//
-//        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-//        $writer->save('php://output');
 
         return $spreadsheet;
     }
