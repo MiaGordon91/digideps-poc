@@ -7,8 +7,7 @@ To run web server using localhost:
 
 PHPUnit
 * Write test cases in the tests/ folder
-* Use MakerBundle's make:test command as a shortcut!
-* Run the tests with php bin/phpunit
+* Run the tests with php vendor/bin/phpunit tests/[name of file.php]
 
 
 Feature Testing
