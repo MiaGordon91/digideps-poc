@@ -32,7 +32,6 @@ class SpreadsheetBuilderTest extends TestCase
 
     public function testPaymentTypeDropdownMenu()
     {
-//        $spreadsheet = $this->spreadsheetBuilder->getActiveSheet();
         $columnType = $this->spreadsheetBuilder->getDataValidation('A3:A50')->getType();
 
         $this->assertEquals(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST, $columnType);
@@ -40,8 +39,6 @@ class SpreadsheetBuilderTest extends TestCase
 
     public function testPaymentTypeDropdownMenuOptions()
     {
-//        $spreadsheet = $this->spreadsheetBuilder->getActiveSheet();
-
         $dropDownOptionsPresent = $this->spreadsheetBuilder->getDataValidation('A3:A50')->getFormula1();
 
         $dropDownOptions = '"Care Fees, Clothes, Broadband, Council Tax, Electricity, Food, Rent, Medical Expenses, Mortgage, Personal Allowance, Water, Wifi"';
