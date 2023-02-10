@@ -9,16 +9,20 @@ use PHPUnit\Framework\TestCase;
 
 class SpreadsheetBuilderTest extends TestCase
 {
-    public function testFileHeaders(): void
+    private $spreadsheetBuilder;
+
+    protected function setup(): void
     {
         $spreadsheetBuilder = new SpreadsheetBuilder();
+        $this->spreadsheetBuilder = $spreadsheetBuilder->generateSpreadsheet()->getActiveSheet();
+    }
 
-        $spreadsheet = $spreadsheetBuilder->generateSpreadsheet();
-
-        $firstHeader = $spreadsheet->getActiveSheet()->getCell('A2');
-        $secondHeader = $spreadsheet->getActiveSheet()->getCell('B2');
-        $thirdHeader = $spreadsheet->getActiveSheet()->getCell('C2');
-        $fourthHeader = $spreadsheet->getActiveSheet()->getCell('D2');
+    public function testFileHeaders(): void
+    {
+        $firstHeader = $this->spreadsheetBuilder->getCell('A2');
+        $secondHeader = $this->spreadsheetBuilder->getCell('B2');
+        $thirdHeader = $this->spreadsheetBuilder->getCell('C2');
+        $fourthHeader = $this->spreadsheetBuilder->getCell('D2');
 
         $this->assertEquals('Payment Type', $firstHeader);
         $this->assertEquals('Amount', $secondHeader);
@@ -28,21 +32,17 @@ class SpreadsheetBuilderTest extends TestCase
 
     public function testPaymentTypeDropdownMenu()
     {
-        $spreadsheetBuilder = new SpreadsheetBuilder();
-
-        $spreadsheet = $spreadsheetBuilder->generateSpreadsheet()->getActiveSheet();
-        $columnType = $spreadsheet->getDataValidation('A3:A50')->getType();
+//        $spreadsheet = $this->spreadsheetBuilder->getActiveSheet();
+        $columnType = $this->spreadsheetBuilder->getDataValidation('A3:A50')->getType();
 
         $this->assertEquals(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST, $columnType);
     }
 
     public function testPaymentTypeDropdownMenuOptions()
     {
-        $spreadsheetBuilder = new SpreadsheetBuilder();
+//        $spreadsheet = $this->spreadsheetBuilder->getActiveSheet();
 
-        $spreadsheet = $spreadsheetBuilder->generateSpreadsheet()->getActiveSheet();
-
-        $dropDownOptionsPresent = $spreadsheet->getDataValidation('A3:A50')->getFormula1();
+        $dropDownOptionsPresent = $this->spreadsheetBuilder->getDataValidation('A3:A50')->getFormula1();
 
         $dropDownOptions = '"Care Fees, Clothes, Broadband, Council Tax, Electricity, Food, Rent, Medical Expenses, Mortgage, Personal Allowance, Water, Wifi"';
 
