@@ -15,10 +15,8 @@ class SpreadsheetBuilder
         /*
          * set table title, merge and format
          */
-        $sheet->setCellValue('A1', 'Money Out Payments Table');
-        $sheet->mergeCells('A1:D1');
-        $sheet->getStyle('A1:D2')->getFont()->setBold(true);
-        $sheet->getStyle('A1:D1')->getFont()->setSize(18);
+
+        $sheet->setTitle('Money Out Payments Table');
 
         $sheet->getStyle('A1:D50')
             ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -29,18 +27,18 @@ class SpreadsheetBuilder
         $sheet->getStyle('A1:D50')
             ->getAlignment()->setWrapText(true);
 
-        $sheet->getRowDimension('2')->setRowHeight(50);
+        $sheet->getRowDimension('1')->setRowHeight(50);
 
         /*
          * Set header for the 'Payment Type' column
          */
-        $sheet->setCellValue('A2', 'Payment Type');
+        $sheet->setCellValue('A1', 'Payment Type');
         $sheet->getColumnDimension('A')->setWidth(15);
 
         /**
          * Set the 'drop down list' validation on column A.
          */
-        $validationDropDown = $sheet->getDataValidation('A3:A50');
+        $validationDropDown = $sheet->getDataValidation('A2:A50');
 
         /*
          * Since the validation is for a 'drop down list',
@@ -93,19 +91,19 @@ class SpreadsheetBuilder
         /*
          * Set header for the 'Amount' column
          */
-        $sheet->setCellValue('B2', 'Amount');
+        $sheet->setCellValue('B1', 'Amount');
         $sheet->getColumnDimension('B')->setWidth(15);
 
         /*
          * Set header for the 'Description' column
          */
-        $sheet->setCellValue('C2', 'Type of Bank Account (e.g. Current, Packaged, Savings)');
+        $sheet->setCellValue('C1', 'Type of Bank Account (e.g. Current, Packaged, Savings)');
         $sheet->getColumnDimension('C')->setWidth(20);
 
         /*
          * Set header for the 'Description' column
          */
-        $sheet->setCellValue('D2', 'Description (if required)');
+        $sheet->setCellValue('D1', 'Description (if required)');
         $sheet->getColumnDimension('D')->setWidth(50);
 
         return $spreadsheet;

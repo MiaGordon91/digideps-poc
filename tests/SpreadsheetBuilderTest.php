@@ -19,10 +19,10 @@ class SpreadsheetBuilderTest extends TestCase
 
     public function testFileHeaders(): void
     {
-        $firstHeader = $this->spreadsheetBuilder->getCell('A2');
-        $secondHeader = $this->spreadsheetBuilder->getCell('B2');
-        $thirdHeader = $this->spreadsheetBuilder->getCell('C2');
-        $fourthHeader = $this->spreadsheetBuilder->getCell('D2');
+        $firstHeader = $this->spreadsheetBuilder->getCell('A1');
+        $secondHeader = $this->spreadsheetBuilder->getCell('B1');
+        $thirdHeader = $this->spreadsheetBuilder->getCell('C1');
+        $fourthHeader = $this->spreadsheetBuilder->getCell('D1');
 
         $this->assertEquals('Payment Type', $firstHeader);
         $this->assertEquals('Amount', $secondHeader);
@@ -32,14 +32,14 @@ class SpreadsheetBuilderTest extends TestCase
 
     public function testPaymentTypeDropdownMenu()
     {
-        $columnType = $this->spreadsheetBuilder->getDataValidation('A3:A50')->getType();
+        $columnType = $this->spreadsheetBuilder->getDataValidation('A2:A50')->getType();
 
         $this->assertEquals(\PhpOffice\PhpSpreadsheet\Cell\DataValidation::TYPE_LIST, $columnType);
     }
 
     public function testPaymentTypeDropdownMenuOptions()
     {
-        $dropDownOptionsPresent = $this->spreadsheetBuilder->getDataValidation('A3:A50')->getFormula1();
+        $dropDownOptionsPresent = $this->spreadsheetBuilder->getDataValidation('A2:A50')->getFormula1();
 
         $dropDownOptions = '"Care Fees, Clothes, Broadband, Council Tax, Electricity, Food, Rent, Medical Expenses, Mortgage, Personal Allowance, Water, Wifi"';
 
