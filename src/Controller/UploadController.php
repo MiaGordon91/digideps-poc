@@ -12,9 +12,8 @@ class UploadController extends AbstractController
 {
     private ValidatorInterface $validator;
 
-    public function __construct(
-            ValidatorInterface $validator
-        ) {
+    public function __construct(ValidatorInterface $validator)
+    {
         $this->validator = $validator;
     }
 
@@ -23,7 +22,7 @@ class UploadController extends AbstractController
           $entityManager = $doctrine->getManager();
           $moneyOutItem = new MoneyOut();
 
-            //    if this condition fails then that means the user hasn't selected a file
+            //    if this condition fails then that means the user hasn't selected a file and throws a message
           if ('' != $_FILES['import_excel']['name']) {
               $allowed_extension = ['xlsx', 'csv', 'xls'];
               $file_array = explode('.', $_FILES['import_excel']['name']);
