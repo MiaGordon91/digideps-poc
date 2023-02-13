@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Form\SpreadsheetUploadFormType;
 use App\Service\SpreadsheetBuilder;
 use PhpOffice\PhpSpreadsheet\Writer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -28,10 +30,22 @@ class UserController extends AbstractController
     }
 
     #[Route('/money_out', name: 'money_out')]
-    public function moneyOut(): Response
+    public function moneyOut(Request $request): Response
     {
+        $form = $this->createForm(SpreadsheetUploadFormType::class, null, [
+            'method' => 'POST',
+        ]);
+
+        $form->handleRequest($request);
+
+//        add validation here
+//        if($form->isSubmitted() && $form->isValid()) {
+//
+//        }
+
         return $this->render('moneyOut.html.twig', [
             'title' => 'Money out',
+            'uploadForm' => $form->createView(), [],
         ]);
     }
 

@@ -31,12 +31,31 @@
 
                 </div>
 
+                <div>
 
-                <div class="govuk-form-group govuk-!-static-padding-top-2" >
-                    <label class="govuk-label" for="file-upload-1" >
-                        Upload a file
-                    </label>
-                    <input class="govuk-file-upload" id="file-upload-1" name="file-upload-1" type="file">
+                <h3 class="govuk-heading-s">2. Upload Money Out Spreadsheet Template</h3>
+                    <ul class="govuk-list">
+                        <li>Please upload completed Money Out Spreadsheet</li>
+                        <li>The selected file must be the same file type as when it was downloaded, which is xlsx</li>
+                    </ul>
+
+                    <div class="govuk-label govuk-form-group govuk-!-static-padding-top-1">
+
+                        {{ form_start(uploadForm) }}
+                            {{ form_row(uploadForm.file) }}
+                        <div class="govuk-form-group govuk-!-static-padding-top-5">
+                            {{ form_row(uploadForm.submit,'', {
+                                'label': 'Upload Money Out Spreadsheet'
+                            }) }}
+                        </div>
+                        {{ form_end(uploadForm) }}
+
+
+{#                        <label class="govuk-label" for="file-upload-1" >#}
+    {#                        Upload a file#}
+    {#                    </label>#}
+    {#                    <input class="govuk-file-upload" id="file-upload-1" name="file-upload-1" type="file">#}
+                    </div>
                 </div>
 
                 <button class="govuk-button" data-module="govuk-button">
