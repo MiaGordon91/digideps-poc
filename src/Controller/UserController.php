@@ -2,37 +2,60 @@
 
 namespace App\Controller;
 
+use App\Service\SpreadsheetBuilder;
+use PhpOffice\PhpSpreadsheet\Writer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
+    private SpreadsheetBuilder $spreadsheetBuilder;
+
+    public function __construct(SpreadsheetBuilder $spreadsheetBuilder)
+    {
+        $this->spreadsheetBuilder = $spreadsheetBuilder;
+    }
 
     #[Route('/', name: 'home')]
     public function home(): Response
     {
         return $this->render('index.html.twig', [
-            'title' => 'Digideps App'
+            'title' => 'Complete the deputy report',
         ]);
     }
 
-    #[Route('/user', name: 'user')]
-    public function index(): Response
+    #[Route('/money_out', name: 'money_out')]
+    public function moneyOut(): Response
     {
-        return $this->render('index.html.twig', [
-            'title' => 'Digideps App'
+        return $this->render('moneyOut.html.twig', [
+            'title' => 'Money out',
         ]);
     }
 
+    #[Route('/download_spreadsheet', name: 'generate_money_out_spreadsheet')]
+    public function generatingSpreadsheet()
+    {
+        $spreadsheet = $this->spreadsheetBuilder->generateSpreadsheet();
 
-//    /**
-//     * @return array
-//     * @Route( "/test" , name: "testmethod")
-//     */
-//    public function testMethod(): array
-//    {
-//       return [];
-//    }
+        $writer = new Writer\Xls($spreadsheet);
 
+        $response = new StreamedResponse(
+            function () use ($writer) {
+                $writer->save('php://output');
+            }
+        );
+
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            'money_out_template.xlsx'
+        );
+
+        $response->headers->set('Content-Disposition', $disposition);
+
+        return $response;
+    }
 }
