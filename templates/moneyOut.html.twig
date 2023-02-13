@@ -1,0 +1,48 @@
+{%  extends "base.html.twig" %}
+
+    {% block body %}
+
+        <div class="govuk-width-container">
+
+            <a href="#" class="govuk-back-link">Back</a>
+            <main class="govuk-main-wrapper">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h1 class="govuk-heading-xl ">{{ title }} </h1>
+                        <p class="govuk-body">In this section, we ask you about money paid out of [clients first name] accounts between [insert report start date] and [report end date]</p>
+                        <p class ="govuk-body govuk-body govuk-!-font-weight-bold">Enter a total amount or individual amounts for each type of payment.</p>
+                        <p class ="govuk-body">For example, you can add one payment that covers the cost of rent for the whole reporting period, or you can add 12 payments - one for each month's rent</p>
+
+
+                    <h3 class="govuk-heading-s">1. Download Money Out Spreadsheet Template</h3>
+                    <p class="govuk-body">In order to submit your annual report, please action the following:</p>
+                        <ul class="govuk-list">
+                            <li>Download the money out spreadsheet template by clicking the 'Download' button below</li>
+                            <li>Add payments to the template and select the relevant payment type using the drop-down menu</li>
+                            <li>Upload the completed file by clicking the 'upload' button below</li>
+                            <li>Save and continue</li>
+                        </ul>
+
+                        <a class="govuk-button" href="{{ path('generate_money_out_spreadsheet') }}"  role="button" draggable="false" id="downloadMoneyOut">
+                            Download template
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="govuk-form-group govuk-!-static-padding-top-2" >
+                    <label class="govuk-label" for="file-upload-1" >
+                        Upload a file
+                    </label>
+                    <input class="govuk-file-upload" id="file-upload-1" name="file-upload-1" type="file">
+                </div>
+
+                <button class="govuk-button" data-module="govuk-button">
+                    Save and continue
+                </button>
+
+            </main>
+        </div>
+    {% endblock %}

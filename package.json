@@ -7,7 +7,7 @@
   "scripts": {
     "test": "test",
     "build": "node build.js",
-    "css": "sass --load-path . --quiet ./assets/main.scss ./dist/all.css",
+    "css": "sass --load-path . --quiet ./assets/main.scss ./public/build/all.css",
     "cypress:open": "cypress open"
   },
   "dependencies": {
@@ -19,6 +19,8 @@
     "sass": "^1.57.1"
   },
   "devDependencies": {
-    "cypress": "^12.4.1"
+    "cy-verify-downloads": "^0.1.11",
+    "cypress": "^12.4.1",
+    "cypress-downloadfile": "^1.2.3"
   }
 }

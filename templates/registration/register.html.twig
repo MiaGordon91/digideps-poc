@@ -3,15 +3,29 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="govuk-width-container">
+    <main class="govuk-main-wrapper">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                <h1 class="govuk-heading-xl">Register</h1>
 
-        <button type="submit" class="btn" id="registerButton">Register</button>
-    {{ form_end(registrationForm) }}
+                <div class="govuk-label govuk-label--m">
+
+                    {{ form_start(registrationForm) }}
+                            {{ form_row(registrationForm.email, {
+                                label: 'Email '
+                            }) }}
+                    <div class="govuk-form-group govuk-!-static-padding-top-5">
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Password '
+                        }) }}
+                    </div>
+                    <button type="submit" class="govuk-button" id="registerButton">Register</button>
+                    {{ form_end(registrationForm) }}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
 {% endblock %}
