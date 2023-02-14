@@ -41,10 +41,10 @@
 
                     <div class="govuk-label govuk-form-group govuk-!-static-padding-top-1">
 
-                        {{ form_start(uploadForm) }}
-                            {{ form_row(uploadForm.file) }}
-                        <div class="govuk-form-group govuk-!-static-padding-top-5">
-                            {{ form_row(uploadForm.submit,'', {
+                        {{ form_start(uploadForm , {'attr': {'enctype' : 'multipart/form-data'} }) }}
+                            {{ form_row(uploadForm.file, {'id': 'spreadsheet_upload_form'}) }}
+                        <div class="govuk-form-group govuk-!-static-padding-top-2">
+                            {{ form_row(uploadForm.submit,{'id': 'upload'}, '', {
                                 'label': 'Upload Money Out Spreadsheet'
                             }) }}
                         </div>
@@ -64,4 +64,33 @@
 
             </main>
         </div>
+
+        <script>
+            $(document).ready(function(){
+                $('#spreadsheet_upload_form').on('submit', function(event){
+                    event.preventDefault();
+                    $.ajax({
+                        url:"UploadService.php",
+                        method:"POST",
+                        data:new FormData(this),
+                        contentType:false,
+                        cache:false,
+                        processData:false,
+                        beforeSend:function(){
+                            $('#upload').attr('disabled', 'disabled');
+                            $('#upload').val('Uploading...');
+                        },
+                        success:function(data)
+                        {
+                            $('#message').html(data);
+                            $('#spreadsheet_upload_form')[0].reset();
+                            $('#upload').attr('disabled', 'false');
+                            $('#upload').val('Upload');
+                        }
+                    })
+                })
+            })
+        </script>
+
+
     {% endblock %}

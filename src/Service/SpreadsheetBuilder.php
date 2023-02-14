@@ -21,11 +21,13 @@ class SpreadsheetBuilder
         $sheet->getStyle('A1:D50')
             ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        $sheet->getStyle('A2:D2')
+        $sheet->getStyle('A2:D50')
             ->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-        $sheet->getStyle('A1:D50')
-            ->getAlignment()->setWrapText(true);
+        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
+        $sheet->getStyle('A1:D1')->getFont()->setSize(12);
+
+        $sheet->getStyle('A1:D50')->getAlignment()->setWrapText(true);
 
         $sheet->getRowDimension('1')->setRowHeight(50);
 

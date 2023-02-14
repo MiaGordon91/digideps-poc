@@ -60,7 +60,7 @@ class UserController extends AbstractController
 
             // spreadsheet must be processed only when a file is uploaded
             if ($file) {
-                $newFileName = $this->uploadService->fileUploader($file);
+                $newFileName = $this->uploadService->validatesFile($file);
 
                 // Move the file to the directory where spreadsheets are stored
                 try {
@@ -70,13 +70,18 @@ class UserController extends AbstractController
                 } catch (\Throwable $e) {
 //                    return null;
                 }
+
+                // saved file is then processed
+                $filePath = $this->getParameter('kernel.project_dir').'/public/uploads/%s';
+                $filePathLocation = sprintf($filePath, $newFileName);
+
+                $processData = $this->uploadService->processForm($filePathLocation);
             } else {
                 throw new \Exception('Please upload a file');
             }
 
-            // $processData = $this->uploadService->processForm($fileName);
-
             // persist data once it's been checked
+            // delete data from the uploads folder once persisted
         }
 
         return $this->render('moneyOut.html.twig', [
