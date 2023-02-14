@@ -13,7 +13,15 @@ class SpreadsheetUploadFormType extends AbstractType
     {
         $builder
             // filetype class represents a file input in the form
-            ->add('file', FileType::class)
-            ->add('submit', SubmitType::class);
+            ->add('file', FileType::class, [
+                'attr' => [
+                    'class' => 'govuk-!-width-one-half',
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'attr' => [
+                    'class' => 'govuk-button--secondary',
+                ],
+            ]);
     }
 }
