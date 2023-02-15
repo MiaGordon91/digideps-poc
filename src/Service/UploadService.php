@@ -2,16 +2,21 @@
 
 namespace App\Service;
 
+use App\Entity\MoneyOut;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadService
 {
     private SluggerInterface $slugger;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, EntityManagerInterface $entityManager)
     {
         $this->slugger = $slugger;
+        $this->entityManager = $entityManager;
     }
 
     public function validatesFile(UploadedFile $file): string
@@ -44,9 +49,12 @@ class UploadService
         $submittedData = $this->removesNullValues($dataArray);
 
         /* Removes the header columns */
-        unset($dataArray[0]);
+        unset($submittedData[0]);
+//        dd($submittedData);
 
-        return;
+        $this->saveToDatabase($submittedData);
+
+        return '';
     }
 
     private function removesNullValues($dataArray): array
@@ -65,5 +73,33 @@ class UploadService
         unset($row);
 
         return $dataArray;
+    }
+
+    private function saveToDatabase($submittedData)
+    {
+        $user = new User();
+        $user->setPassword('1234567');
+        $user->setEmail('test300@hotmail.co.uk');
+        $this->entityManager->persist($user);
+
+        foreach ($submittedData as $array) {
+            $moneyOutItem = new MoneyOut();
+
+            $insert_data = [
+                'payment_type' => $array[0],
+                'amount' => $array[1],
+                'type_of_bank_account' => $array[2],
+                'description' => isset($array[3]) ? $array[3] : null,
+            ];
+//            dd($insert_data);
+            $moneyOutItem->setUserId($user);
+            $moneyOutItem->setPaymentType($insert_data['payment_type']);
+            $moneyOutItem->setAmount($insert_data['amount']);
+            $moneyOutItem->setBankAccountType($insert_data['type_of_bank_account']);
+            $moneyOutItem->setDescription($insert_data['description']);
+
+            $this->entityManager->persist($moneyOutItem);
+            $this->entityManager->flush();
+        }
     }
 }
