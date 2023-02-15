@@ -28,7 +28,6 @@ class UploadService
     public function processForm($filePathLocation): string
     {
         $explodePath = explode('/', $filePathLocation);
-        $fileName = end($explodePath);
 
         /*  Identify the type of $inputFileName  * */
         $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePathLocation);
@@ -40,7 +39,31 @@ class UploadService
         $spreadsheet = $reader->load($filePathLocation);
 
         /*  Convert Spreadsheet Object to an Array for ease of use  * */
-        $schedules = $spreadsheet->getActiveSheet()->toArray();
-        dd($schedules);
+        $dataArray = $spreadsheet->getActiveSheet()->toArray();
+
+        $submittedData = $this->removesNullValues($dataArray);
+
+        /* Removes the header columns */
+        unset($dataArray[0]);
+
+        return;
+    }
+
+    private function removesNullValues($dataArray): array
+    {
+        /* Removes any null values */
+        foreach ($dataArray as $key => &$row) {
+            $row = array_filter($row,
+                function ($cell) {
+                    return !is_null($cell);
+                }
+            );
+            if (0 == count($row)) {
+                unset($dataArray[$key]);
+            }
+        }
+        unset($row);
+
+        return $dataArray;
     }
 }

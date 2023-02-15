@@ -71,7 +71,7 @@ class UserController extends AbstractController
 //                    return null;
                 }
 
-                // saved file is then processed
+                // saved file is then retrieved and processed
                 $filePath = $this->getParameter('kernel.project_dir').'/public/uploads/%s';
                 $filePathLocation = sprintf($filePath, $newFileName);
 
