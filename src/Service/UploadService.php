@@ -77,29 +77,55 @@ class UploadService
 
     private function saveToDatabase($submittedData)
     {
+//        fake user account - need to connect this to registration
         $user = new User();
         $user->setPassword('1234567');
-        $user->setEmail('test300@hotmail.co.uk');
+        $user->setEmail('test911@hotmail.co.uk');
         $this->entityManager->persist($user);
 
         foreach ($submittedData as $array) {
             $moneyOutItem = new MoneyOut();
 
-            $insert_data = [
+            $dataRow = [
                 'payment_type' => $array[0],
                 'amount' => $array[1],
                 'type_of_bank_account' => $array[2],
                 'description' => isset($array[3]) ? $array[3] : null,
             ];
-//            dd($insert_data);
+
+            $dataRowUpdated = $this->checkPaymentTypes($dataRow);
+            $amountValidated = $this->validateAmount($dataRowUpdated);
+
             $moneyOutItem->setUserId($user);
-            $moneyOutItem->setPaymentType($insert_data['payment_type']);
-            $moneyOutItem->setAmount($insert_data['amount']);
-            $moneyOutItem->setBankAccountType($insert_data['type_of_bank_account']);
-            $moneyOutItem->setDescription($insert_data['description']);
+            $moneyOutItem->setPaymentType($dataRowUpdated['payment_type']);
+            $moneyOutItem->setAmount($amountValidated);
+            $moneyOutItem->setBankAccountType($dataRowUpdated['type_of_bank_account']);
+            $moneyOutItem->setDescription($dataRowUpdated['description']);
 
             $this->entityManager->persist($moneyOutItem);
             $this->entityManager->flush();
         }
+    }
+
+    private function checkPaymentTypes($dataRow)
+    {
+        $paymentTypes =
+            ['Care Fees', 'Clothes', 'Broadband', 'Council Tax',
+            'Electricity', 'Food', 'Rent', 'Medical Expenses',
+            'Mortgage', 'Personal Allowance', 'Water', 'Wifi'];
+
+        if (in_array($dataRow['payment_type'], $paymentTypes)) {
+            return $dataRow;
+        }
+    }
+
+    private function validateAmount($dataRow)
+    {
+        $amount = $dataRow['amount'];
+//        if float drop decimal and convert to pennies, if not x 100
+        return is_float($amount) ?
+         (int) round((float) $amount * 100) : $amount * 100;
+
+        // need to throw an error if theres letters
     }
 }
