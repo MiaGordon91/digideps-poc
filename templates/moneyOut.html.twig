@@ -3,7 +3,6 @@
     {% block body %}
 
         <div class="govuk-width-container">
-            <a href="#" class="govuk-back-link">Back</a>
 
             {% for message in app.flashes('success') %}
                 <div class="flash-notice govuk-!-font-weight-bold govuk-!-text-align-centre">
@@ -22,7 +21,7 @@
 
                     <h3 class="govuk-heading-s">1. Download Money Out Spreadsheet Template</h3>
                     <p class="govuk-body">In order to submit your annual report, please action the following:</p>
-                        <ul class="govuk-list">
+                        <ul class="govuk-list govuk-list--bullet">
                             <li>Download the money out spreadsheet template by clicking the 'Download' button below</li>
                             <li>Add payments to the template and select the relevant payment type using the drop-down menu</li>
                             <li>Upload the completed file by clicking the 'upload' button below</li>
@@ -40,7 +39,7 @@
                 <div>
 
                 <h3 class="govuk-heading-s">2. Upload Money Out Spreadsheet Template</h3>
-                    <ul class="govuk-list">
+                    <ul class="govuk-list govuk-list--bullet">
                         <li>Please upload completed Money Out Spreadsheet</li>
                         <li>The selected file must be the same file type as when it was downloaded, which is xlsx</li>
                     </ul>
@@ -56,11 +55,6 @@
                         </div>
                         {{ form_end(uploadForm) }}
 
-
-{#                        <label class="govuk-label" for="file-upload-1" >#}
-    {#                        Upload a file#}
-    {#                    </label>#}
-    {#                    <input class="govuk-file-upload" id="file-upload-1" name="file-upload-1" type="file">#}
                     </div>
                 </div>
 

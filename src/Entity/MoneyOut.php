@@ -19,6 +19,9 @@ class MoneyOut
     #[ORM\Column(length: 255)]
     private ?string $payment_type = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $category = null;
+
     #[ORM\Column]
     private ?int $amount = null;
 
@@ -54,6 +57,18 @@ class MoneyOut
     public function setPaymentType(string $payment_type): self
     {
         $this->payment_type = $payment_type;
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->payment_type;
+    }
+
+    public function setCategory(string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

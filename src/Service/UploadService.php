@@ -85,11 +85,14 @@ class UploadService
             $dataRowUpdated = $this->checkPaymentTypes($dataRow);
             $amountValidated = $this->validateAmount($dataRowUpdated);
 
+            $paymentCategory = $this->addCategoryType($dataRowUpdated);
+
             $moneyOutItem->setUserId($loggedInUser);
             $moneyOutItem->setPaymentType($dataRowUpdated['payment_type']);
             $moneyOutItem->setAmount($amountValidated);
             $moneyOutItem->setBankAccountType($dataRowUpdated['type_of_bank_account']);
             $moneyOutItem->setDescription($dataRowUpdated['description']);
+            $moneyOutItem->setCategory($paymentCategory);
 
             $this->entityManager->persist($moneyOutItem);
             $this->entityManager->flush();
@@ -116,5 +119,33 @@ class UploadService
         return is_float($amount) ? (int) round((float) $amount * 100) : $amount * 100;
 
         // need to throw an error if there's letters
+    }
+
+    private function addCategoryType($dataRowUpdated): string
+    {
+        $paymentTypeSelected = $dataRowUpdated['payment_type'];
+
+        $paymentTypeAndCategories = [
+            'Care Fees' => 'Care or medical bill',
+            'Clothes' => 'Personal expenses',
+            'Broadband' => 'Household bills and expenses',
+            'Council Tax' => 'Household bills and expenses',
+            'Electricity' => 'Household bills and expenses',
+            'Food' => 'Household bills and expenses',
+            'Rent' => 'Accommodation costs',
+            'Medical Expenses' => 'Care or medical bill',
+            'Mortgage' => 'Accommodation costs',
+            'Personal Allowance' => 'Personal expenses',
+            'Water' => 'Household bills and expenses',
+            'Wifi' => 'Household bills and expenses',
+        ];
+
+        foreach ($paymentTypeAndCategories as $paymentType => $categoryType) {
+            if ($paymentType == $paymentTypeSelected) {
+                return $categoryType;
+            }
+        }
+
+        return '';
     }
 }
