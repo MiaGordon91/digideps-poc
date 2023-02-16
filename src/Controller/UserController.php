@@ -7,6 +7,7 @@ use App\Service\SpreadsheetBuilder;
 use App\Service\UploadService;
 use PhpOffice\PhpSpreadsheet\Writer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -17,19 +18,24 @@ class UserController extends AbstractController
 {
     private SpreadsheetBuilder $spreadsheetBuilder;
     private UploadService $uploadService;
+    private Security $security;
 
     public function __construct(
         SpreadsheetBuilder $spreadsheetBuilder,
         UploadService $uploadService,
+        Security $security
     ) {
         $this->spreadsheetBuilder = $spreadsheetBuilder;
         $this->uploadService = $uploadService;
+        $this->security = $security;
     }
 
     #[Route('/money_out', name: 'money_out')]
     public function moneyOut(Request $request)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $loggedInUser = $this->security->getUser();
 
         $form = $this->createForm(SpreadsheetUploadFormType::class, null, [
             'method' => 'POST',
@@ -51,7 +57,7 @@ class UserController extends AbstractController
 
             $filePathLocation = sprintf($filePath, $newFileName);
 
-            $this->uploadService->processForm($filePathLocation);
+            $this->uploadService->processForm($filePathLocation, $loggedInUser);
 
             // delete file from the uploads folder once data is persisted to the database
             $filesystem = new \Symfony\Component\Filesystem\Filesystem();

@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\MoneyOut;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -29,7 +28,7 @@ class UploadService
         return $safeFileName.'-'.uniqid().'.'.$file->guessExtension();
     }
 
-    public function processForm($filePathLocation): string
+    public function processForm($filePathLocation, $loggedInUser): string
     {
         /*  Identify the type of $inputFileName  * */
         $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePathLocation);
@@ -48,7 +47,7 @@ class UploadService
         /* Removes the header columns */
         unset($submittedData[0]);
 
-        $this->saveToDatabase($submittedData);
+        $this->saveToDatabase($submittedData, $loggedInUser);
 
         return '';
     }
@@ -71,14 +70,8 @@ class UploadService
         return $dataArray;
     }
 
-    private function saveToDatabase($submittedData)
+    private function saveToDatabase($submittedData, $loggedInUser)
     {
-//        fake user account - need to connect this to registration
-        $user = new User();
-        $user->setPassword('1234567');
-        $user->setEmail('test932@hotmail.co.uk');
-        $this->entityManager->persist($user);
-
         foreach ($submittedData as $array) {
             $moneyOutItem = new MoneyOut();
 
@@ -92,7 +85,7 @@ class UploadService
             $dataRowUpdated = $this->checkPaymentTypes($dataRow);
             $amountValidated = $this->validateAmount($dataRowUpdated);
 
-            $moneyOutItem->setUserId($user);
+            $moneyOutItem->setUserId($loggedInUser);
             $moneyOutItem->setPaymentType($dataRowUpdated['payment_type']);
             $moneyOutItem->setAmount($amountValidated);
             $moneyOutItem->setBankAccountType($dataRowUpdated['type_of_bank_account']);

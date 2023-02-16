@@ -27,7 +27,7 @@ class MoneyOut
 
     #[ORM\ManyToOne(inversedBy: 'moneyOutPayments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $deputy_user = null;
+    private ?user $deputy_user = null;
 
     public function getId(): ?int
     {
@@ -82,7 +82,7 @@ class MoneyOut
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUserId(): ?user
     {
         return $this->deputy_user;
     }
