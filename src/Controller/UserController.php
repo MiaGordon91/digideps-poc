@@ -26,17 +26,11 @@ class UserController extends AbstractController
         $this->uploadService = $uploadService;
     }
 
-    #[Route('/', name: 'home')]
-    public function home(): Response
-    {
-        return $this->render('index.html.twig', [
-            'title' => 'Complete the deputy report',
-        ]);
-    }
-
     #[Route('/money_out', name: 'money_out')]
     public function moneyOut(Request $request)
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $form = $this->createForm(SpreadsheetUploadFormType::class, null, [
             'method' => 'POST',
         ]);
