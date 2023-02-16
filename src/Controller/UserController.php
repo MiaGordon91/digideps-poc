@@ -7,8 +7,6 @@ use App\Service\SpreadsheetBuilder;
 use App\Service\UploadService;
 use PhpOffice\PhpSpreadsheet\Writer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -19,19 +17,13 @@ class UserController extends AbstractController
 {
     private SpreadsheetBuilder $spreadsheetBuilder;
     private UploadService $uploadService;
-    protected ParameterBagInterface $parameterBag;
-    private UploadedFile $uploadedFile;
-
-    private $fileLoader;
 
     public function __construct(
         SpreadsheetBuilder $spreadsheetBuilder,
         UploadService $uploadService,
-        ParameterBagInterface $parameterBag
     ) {
         $this->spreadsheetBuilder = $spreadsheetBuilder;
         $this->uploadService = $uploadService;
-        $this->parameterBag = $parameterBag;
     }
 
     #[Route('/', name: 'home')]
@@ -42,11 +34,8 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws \Exception
-     */
     #[Route('/money_out', name: 'money_out')]
-    public function moneyOut(Request $request): Response
+    public function moneyOut(Request $request)
     {
         $form = $this->createForm(SpreadsheetUploadFormType::class, null, [
             'method' => 'POST',
@@ -55,33 +44,28 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $uploadedFile */
             $file = $form->get('file')->getData();
 
             // spreadsheet must be processed only when a file is uploaded
-            if ($file) {
-                $newFileName = $this->uploadService->validatesFile($file);
+            $newFileName = $this->uploadService->validatesFile($file);
 
-                // Move the file to the directory where spreadsheets are stored
-                try {
-                    $file->move($this->getParameter('upload_directory'),
-                        $newFileName
-                    );
-                } catch (\Throwable $e) {
-//                    return null;
-                }
+            // Move the file to the directory where spreadsheets are stored
+            $file->move($this->getParameter('upload_directory'), $newFileName);
 
-                // saved file is then retrieved and processed
-                $filePath = $this->getParameter('kernel.project_dir').'/public/uploads/%s';
-                $filePathLocation = sprintf($filePath, $newFileName);
+            // saved file is then retrieved and processed
+            $filePath = $this->getParameter('kernel.project_dir').'/public/uploads/%s';
 
-                $processData = $this->uploadService->processForm($filePathLocation);
-            } else {
-                throw new \Exception('Please upload a file');
-            }
+            $filePathLocation = sprintf($filePath, $newFileName);
 
-            // persist data once it's been checked
-            // delete data from the uploads folder once persisted
+            $this->uploadService->processForm($filePathLocation);
+
+            // delete file from the uploads folder once data is persisted to the database
+            $filesystem = new \Symfony\Component\Filesystem\Filesystem();
+            $filesystem->remove($filePathLocation);
+
+            $this->addFlash('success', 'File has successfully uploaded');
+
+            return $this->redirectToRoute('money_out');
         }
 
         return $this->render('moneyOut.html.twig', [

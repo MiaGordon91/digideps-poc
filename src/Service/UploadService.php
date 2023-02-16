@@ -22,7 +22,6 @@ class UploadService
     public function validatesFile(UploadedFile $file): string
     {
         $fileName = $file->getClientOriginalName();
-//        $fileExtension = $file->getClientOriginalExtension();
 
         $originalFileName = pathinfo($fileName, PATHINFO_FILENAME);
         $safeFileName = $this->slugger->slug($originalFileName);
@@ -32,8 +31,6 @@ class UploadService
 
     public function processForm($filePathLocation): string
     {
-        $explodePath = explode('/', $filePathLocation);
-
         /*  Identify the type of $inputFileName  * */
         $inputFileType = \PhpOffice\PhpSpreadsheet\IOFactory::identify($filePathLocation);
 
@@ -50,7 +47,6 @@ class UploadService
 
         /* Removes the header columns */
         unset($submittedData[0]);
-//        dd($submittedData);
 
         $this->saveToDatabase($submittedData);
 
@@ -80,7 +76,7 @@ class UploadService
 //        fake user account - need to connect this to registration
         $user = new User();
         $user->setPassword('1234567');
-        $user->setEmail('test911@hotmail.co.uk');
+        $user->setEmail('test932@hotmail.co.uk');
         $this->entityManager->persist($user);
 
         foreach ($submittedData as $array) {
@@ -119,13 +115,13 @@ class UploadService
         }
     }
 
-    private function validateAmount($dataRow)
+    private function validateAmount($dataRow): int
     {
         $amount = $dataRow['amount'];
-//        if float drop decimal and convert to pennies, if not x 100
-        return is_float($amount) ?
-         (int) round((float) $amount * 100) : $amount * 100;
 
-        // need to throw an error if theres letters
+//        if float, drop decimal and convert to pennies, if not float x 100
+        return is_float($amount) ? (int) round((float) $amount * 100) : $amount * 100;
+
+        // need to throw an error if there's letters
     }
 }
