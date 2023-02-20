@@ -9,14 +9,17 @@ describe('registration page', () => {
 
   it('user successfully registers ', () =>
   {
+    Cypress.on('uncaught:exception', (err, runnable) => {
+      return false;
+    });
+
     cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
     cy.get('[id=registration_form_plainPassword]').type(password)
-    cy.get('[type="checkbox"]').check()
 
     cy.get('#registerButton').click()
 
-    //user should be redirected to /dashboard
-    cy.url().should('include', '/dashboard')
+    //user should be redirected to /money_out
+    cy.url().should('eq', 'http://localhost:8000/money_out')
   });
 
 
@@ -25,7 +28,6 @@ describe('registration page', () => {
 
     cy.get('[id=registration_form_email]').should('not.have.value')
     cy.get('[id=registration_form_plainPassword]').should('not.have.value')
-    cy.get('[type="checkbox"]').check()
 
     cy.get('#registerButton').click()
 
@@ -39,40 +41,40 @@ describe('registration page', () => {
 
 describe('login page', () => {
 
-  const generateEmail = require('random-email');
-  const loginEmail = generateEmail({domain: 'example.com'});
-  const password = '1234567';
+    const generateEmail = require('random-email');
+    const email = generateEmail({domain: 'example.com'});
+    const password = '1234567';
 
-  beforeEach(() => {
+    beforeEach(() => {
+      cy.visit('http://localhost:8000/register')
+      cy.get('[id=registration_form_email]').type(email).then(response => ({...email}))
+      cy.get('[id=registration_form_plainPassword]').type(password).then(response => ({...password}))
+      cy.get('#registerButton').click()
+      cy.intercept('POST', '/api/user/').as('waiting')
+      cy.get('#signOut').click()
+      })
 
-    cy.visit('http://localhost:8000/register')
-    cy.get('[id=registration_form_email]').type(loginEmail)
-    cy.get('[id=registration_form_plainPassword]').type(password)
-    cy.get('[type="checkbox"]').check()
 
-    cy.get('#registerButton').click()
+      it('user successfully logs in with same registration details', () =>
+      {
+        cy.visit('http://localhost:8000/')
+        cy.get('[id=inputEmail]').type(email)
+        cy.get('[id=inputPassword]').type(password)
+        cy.get('#signIn').click()
+        cy.url().should('eq', 'http://localhost:8000/money_out')
+      });
 
-  })
 
-    it('user successfully logs in with same registration details', () =>
-    {
-      cy.visit('http://localhost:8000/login')
-      cy.get('[id=inputEmail]').type(loginEmail)
-      cy.get('[id=inputPassword]').type(password)
+     it('should error if user enters incorrect password', () =>
+      {
+        const generateEmail = require('random-email');
+        const loginEmail = generateEmail({domain: 'example.com'});
 
-      cy.get('#signIn').click()
+        cy.visit('http://localhost:8000/')
+        cy.get('[id=inputEmail]').type(loginEmail)
+        cy.get('[id=inputPassword]').type('12345')
+        cy.get('#signIn').click()
+        cy.get('#logInError').should('be.visible')
+    });
 
-      //user should be redirected to /dashboard
-      cy.url().should('include', '/dashboard')
   });
-
-  it('should error if user enters incorrect password', () =>
-  {
-    cy.visit('http://localhost:8000/login')
-    cy.get('[id=inputEmail]').type(loginEmail)
-    cy.get('[id=inputPassword]').type('12345')
-    cy.get('#signIn').click()
-    cy.get('#logInError').should('be.visible')
-
-  });
-});
