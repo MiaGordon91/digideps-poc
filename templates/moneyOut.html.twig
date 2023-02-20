@@ -5,7 +5,7 @@
         <div class="govuk-width-container">
 
             {% for message in app.flashes('success') %}
-                <div class="flash-notice govuk-!-font-weight-bold govuk-!-text-align-centre">
+                <div class="flash-notice govuk-!-font-weight-bold govuk-!-text-align-centre" id="flashMessage">
                     {{ message }}
                 </div>
             {% endfor %}
