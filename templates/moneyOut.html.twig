@@ -66,30 +66,6 @@
         </div>
 
         <script>
-            $(document).ready(function(){
-                $('#spreadsheet_upload_form').on('submit', function(event){
-                    event.preventDefault();
-                    $.ajax({
-                        url:"UploadService.php",
-                        method:"POST",
-                        data:new FormData(this),
-                        contentType:false,
-                        cache:false,
-                        processData:false,
-                        beforeSend:function(){
-                            $('#upload').attr('disabled', 'disabled');
-                            $('#upload').val('Uploading...');
-                        },
-                        success:function(data)
-                        {
-                            $('#message').html(data);
-                            $('#spreadsheet_upload_form')[0].reset();
-                            $('#upload').attr('disabled', 'false');
-                            $('#upload').val('Upload');
-                        }
-                    })
-                })
-            })
         </script>
 
 
