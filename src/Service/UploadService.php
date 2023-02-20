@@ -117,8 +117,6 @@ class UploadService
 
 //        if float, drop decimal and convert to pennies, if not float x 100
         return is_float($amount) ? (int) round((float) $amount * 100) : $amount * 100;
-
-        // need to throw an error if there's letters
     }
 
     private function addCategoryType($dataRowUpdated): string
