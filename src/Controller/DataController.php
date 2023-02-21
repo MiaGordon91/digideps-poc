@@ -6,14 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class dataController extends AbstractController
+class DataController extends AbstractController
 {
-    #[Route('/dataOverview', name: 'app_user')]
+    #[Route('/money_out_summary', name: 'money_out_summary')]
     public function data(): Response
     {
-        return $this->render('dataVisualisation.html.twig', [
-            'title' => 'Digideps App'
+        return $this->render('moneyOutSummary.html.twig', [
+            'title' => 'Money Out Payment Summary',
         ]);
     }
-
 }
