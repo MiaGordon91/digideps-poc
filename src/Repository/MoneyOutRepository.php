@@ -39,28 +39,14 @@ class MoneyOutRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return MoneyOut[] Returns an array of MoneyOut objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?MoneyOut
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findPaymentItemsByDeputyId($deputyId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p')
+            ->Where('p.deputyUser = :deputyId')
+            ->setParameter('deputyId', $deputyId)
+            ->orderBy('p.amount', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

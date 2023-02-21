@@ -55,4 +55,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         $this->save($user, true);
     }
+
+    public function findDeputyId(string $loggedInUserEmail)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.id')
+            ->Where('p.email = :email')
+            ->setParameter('email', $loggedInUserEmail)
+            ->getQuery()
+            ->getResult();
+    }
 }
