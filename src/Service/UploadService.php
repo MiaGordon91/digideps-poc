@@ -9,13 +9,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UploadService
 {
-    private SluggerInterface $slugger;
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(SluggerInterface $slugger, EntityManagerInterface $entityManager)
-    {
-        $this->slugger = $slugger;
-        $this->entityManager = $entityManager;
+    public function __construct(
+        private SluggerInterface $slugger,
+        private EntityManagerInterface $entityManager
+    ) {
     }
 
     public function validatesFile(UploadedFile $file): string

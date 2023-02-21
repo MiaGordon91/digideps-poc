@@ -14,10 +14,10 @@ class MoneyOut
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $bank_account_type = null;
+    private ?string $bankAccountType = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $payment_type = null;
+    private ?string $paymentType = null;
 
     #[ORM\Column(length: 255)]
     private ?string $category = null;
@@ -30,7 +30,7 @@ class MoneyOut
 
     #[ORM\ManyToOne(inversedBy: 'moneyOutPayments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $deputy_user = null;
+    private ?User $deputyUser = null;
 
     public function getId(): ?int
     {
@@ -39,31 +39,31 @@ class MoneyOut
 
     public function getBankAccountType(): ?string
     {
-        return $this->bank_account_type;
+        return $this->bankAccountType;
     }
 
-    public function setBankAccountType(string $bank_account_type): self
+    public function setBankAccountType(string $bankAccountType): self
     {
-        $this->bank_account_type = $bank_account_type;
+        $this->bankAccountType = $bankAccountType;
 
         return $this;
     }
 
     public function getPaymentType(): ?string
     {
-        return $this->payment_type;
+        return $this->paymentType;
     }
 
-    public function setPaymentType(string $payment_type): self
+    public function setPaymentType(string $paymentType): self
     {
-        $this->payment_type = $payment_type;
+        $this->paymentType = $paymentType;
 
         return $this;
     }
 
     public function getCategory(): ?string
     {
-        return $this->payment_type;
+        return $this->category;
     }
 
     public function setCategory(string $category): self
@@ -97,14 +97,14 @@ class MoneyOut
         return $this;
     }
 
-    public function getUserId(): ?user
+    public function getUserId(): ?User
     {
-        return $this->deputy_user;
+        return $this->deputyUser;
     }
 
-    public function setUserId(?user $deputy_user): self
+    public function setUserId(?User $deputyUser): self
     {
-        $this->deputy_user = $deputy_user;
+        $this->deputyUser = $deputyUser;
 
         return $this;
     }

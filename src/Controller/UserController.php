@@ -16,18 +16,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    private SpreadsheetBuilder $spreadsheetBuilder;
-    private UploadService $uploadService;
-    private Security $security;
-
     public function __construct(
-        SpreadsheetBuilder $spreadsheetBuilder,
-        UploadService $uploadService,
-        Security $security
+       private SpreadsheetBuilder $spreadsheetBuilder,
+       private UploadService $uploadService,
+       private Security $security
     ) {
-        $this->spreadsheetBuilder = $spreadsheetBuilder;
-        $this->uploadService = $uploadService;
-        $this->security = $security;
     }
 
     #[Route('/money_out', name: 'money_out')]

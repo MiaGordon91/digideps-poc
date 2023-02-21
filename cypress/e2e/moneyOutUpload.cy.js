@@ -9,10 +9,6 @@ describe('money out upload', () => {
 
     it('user successfully uploads money out file', () => {
 
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false;
-        });
-
         cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
         cy.get('[id=registration_form_plainPassword]').type(password)
         cy.get('#registerButton').click()

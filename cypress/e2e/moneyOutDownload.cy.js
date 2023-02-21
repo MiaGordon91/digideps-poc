@@ -9,14 +9,11 @@ describe('money out download', () => {
 
     it('user successfully downloads money out file', () => {
 
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false;
-        });
-
         cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
         cy.get('[id=registration_form_plainPassword]').type(password)
 
         cy.get('#registerButton').click()
+
         //user should be redirected to /money_out
         cy.url().should('eq', 'http://localhost:8000/money_out')
 
@@ -29,7 +26,6 @@ describe('money out download', () => {
 
             cy.get('#downloadMoneyOut').click()
             cy.verifyDownload('money_out_template.xlsx');
-
-    });
+     });
    });
 });

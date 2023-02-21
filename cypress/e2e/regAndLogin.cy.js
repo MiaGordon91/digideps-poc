@@ -7,11 +7,7 @@ describe('registration page', () => {
     const generateEmail = require('random-email');
     const password = '1234567';
 
-  it('user successfully registers ', () =>
-  {
-    Cypress.on('uncaught:exception', (err, runnable) => {
-      return false;
-    });
+  it('user successfully registers ', () => {
 
     cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
     cy.get('[id=registration_form_plainPassword]').type(password)
@@ -25,7 +21,6 @@ describe('registration page', () => {
 
   it('user cant register with empty fields', () =>
   {
-
     cy.get('[id=registration_form_email]').should('not.have.value')
     cy.get('[id=registration_form_plainPassword]').should('not.have.value')
 
@@ -65,13 +60,10 @@ describe('login page', () => {
       });
 
 
-     it('should error if user enters incorrect password', () =>
-      {
-        const generateEmail = require('random-email');
-        const loginEmail = generateEmail({domain: 'example.com'});
+     it('should error if user enters incorrect password', () => {
 
         cy.visit('http://localhost:8000/')
-        cy.get('[id=inputEmail]').type(loginEmail)
+        cy.get('[id=inputEmail]').type(email)
         cy.get('[id=inputPassword]').type('12345')
         cy.get('#signIn').click()
         cy.get('#logInError').should('be.visible')

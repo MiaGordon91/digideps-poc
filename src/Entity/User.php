@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
 //    Might not need this, can be deleted if not required
-    #[ORM\OneToMany(mappedBy: 'deputy_user', targetEntity: MoneyOut::class)]
+    #[ORM\OneToMany(mappedBy: 'deputyUser', targetEntity: MoneyOut::class)]
     private Collection $moneyOutPayments;
 
     public function __construct()
