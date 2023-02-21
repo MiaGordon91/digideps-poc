@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -29,6 +31,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+//    Might not need this, can be deleted if not required
+    #[ORM\OneToMany(mappedBy: 'deputyUser', targetEntity: MoneyOut::class)]
+    private Collection $moneyOutPayments;
+
+    public function __construct()
+    {
+        $this->moneyOutPayments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -98,5 +109,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, MoneyOut>
+     */
+    public function getMoneyOutPayments(): Collection
+    {
+        return $this->moneyOutPayments;
+    }
+
+    public function addMoneyOutPayment(MoneyOut $moneyOutPayment): self
+    {
+        if (!$this->moneyOutPayments->contains($moneyOutPayment)) {
+            $this->moneyOutPayments->add($moneyOutPayment);
+            $moneyOutPayment->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMoneyOutPayment(MoneyOut $moneyOutPayment): self
+    {
+        if ($this->moneyOutPayments->removeElement($moneyOutPayment)) {
+            // set the owning side to null (unless already changed)
+            if ($moneyOutPayment->getUserId() === $this) {
+                $moneyOutPayment->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 }
