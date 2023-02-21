@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\MoneyOut;
-use App\Entity\User;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\MoneyOutRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,18 +12,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class DataController extends AbstractController
 {
     public function __construct(
-       private ManagerRegistry $doctrine,
        private Security $security,
     ) {
     }
 
     #[Route('/money_out_summary', name: 'money_out_summary')]
-    public function data(): Response
+    public function data(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
     {
         $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
-        $deputyId = $this->doctrine->getRepository(User::class)->findDeputyId($loggedInUsersEmail);
+        $deputyId = $itemRepository->findDeputyId($loggedInUsersEmail);
 
-        $moneyOutPayments = $this->doctrine->getRepository(MoneyOut::class)->findPaymentItemsByDeputyId($deputyId);
+        $moneyOutPayments = $moneyOutRepository->findPaymentItemsByDeputyId($deputyId);
 
         return $this->render('moneyOutSummary.html.twig', [
             'title' => 'Money Out Payment Summary',
