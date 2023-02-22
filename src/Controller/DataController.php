@@ -29,4 +29,21 @@ class DataController extends AbstractController
             'moneyOutPayments' => $moneyOutPayments,
         ]);
     }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    #[Route('/barOverview', name: 'app_user')]
+    public function barChart(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
+    {
+        $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
+        $deputyIdArray = $itemRepository->findDeputyId($loggedInUsersEmail);
+        $deputyId = implode('', $deputyIdArray[0]);
+
+        $categorySummary = $moneyOutRepository->findSummaryOfCategoryItemsByDeputyId($deputyId);
+
+        return $this->render('dataVisualisation.html.twig', [
+            'categorySummary' => $categorySummary,
+        ]);
+    }
 }

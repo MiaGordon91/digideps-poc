@@ -49,4 +49,22 @@ class MoneyOutRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findSummaryOfCategoryItemsByDeputyId($deputyId): array
+    {
+        $conn = $this->getEntityManager()
+                ->getConnection();
+
+        $sql = 'SELECT category, SUM(amount) AS amount FROM money_out WHERE deputy_user_id = :deputyId GROUP BY category';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':deputyId', $deputyId);
+
+        $result = $stmt->executeQuery();
+
+        return $result->fetchAllAssociative();
+    }
 }
