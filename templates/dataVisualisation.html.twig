@@ -30,10 +30,14 @@
 
                 data.addRows(row);
 
+                var formatter = new google.visualization.NumberFormat(
+                    {prefix: '£', negativeColor: 'red', negativeParens: true});
+                formatter.format(data, 1);
+
                 var options = {
                     'title': 'Summary of categorised spending',
                     'width': 800,
-                    'height': 500
+                    'height': 500,
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('chart_div'));

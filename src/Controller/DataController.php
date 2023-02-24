@@ -43,6 +43,10 @@ class DataController extends AbstractController
 
         $categorySummary = $moneyOutRepository->findSummaryOfCategoryItemsByDeputyId($deputyId);
 
+        foreach ($categorySummary as &$value) {
+            $value['amount'] = $value['amount'] / 100;
+        }
+
         return $this->render('dataVisualisation.html.twig', [
             'title' => 'Money Out Payment Visual Summary',
             'categorySummary' => $categorySummary,
