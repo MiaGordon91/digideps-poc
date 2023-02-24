@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\MoneyOutRepository;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,10 +32,10 @@ class DataController extends AbstractController
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    #[Route('/barOverview', name: 'app_user')]
-    public function barChart(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
+    #[Route('/graphSummary', name: 'app_user')]
+    public function pieChart(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
     {
         $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
         $deputyIdArray = $itemRepository->findDeputyId($loggedInUsersEmail);
@@ -43,6 +44,7 @@ class DataController extends AbstractController
         $categorySummary = $moneyOutRepository->findSummaryOfCategoryItemsByDeputyId($deputyId);
 
         return $this->render('dataVisualisation.html.twig', [
+            'title' => 'Money Out Payment Visual Summary',
             'categorySummary' => $categorySummary,
         ]);
     }
