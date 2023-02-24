@@ -3,24 +3,18 @@
 {% block body %}
 
 <div class="govuk-width-container">
-
+    <a href="/money_out" class="govuk-back-link">Back</a>
     <main class="govuk-main-wrapper">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl ">{{ title }} </h1>
                 <p class="govuk-heading-s">We've listed your saved answers below.</p>
-                <p class="govuk-body">Please find a summary of the following:</p>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>Submitted payments for this year's report.</li>
-                    <li>Graph displaying your categorised spending.</li>
-                    <li>Graph comparing year on year difference in spending.</li>
-                </ul>
+                <p class="govuk-body">Please find submitted payments below for this year's report.</p>
             </div>
         </div>
 
 
-        <div class="govuk-grid-row govuk-!-static-padding-top-4">
-            <h2 class="govuk-heading-l ">Submitted payments</h2>
+            <h2 class="govuk-heading-l govuk-!-static-margin-top-3">Submitted payments</h2>
             <table class="govuk-table">
                 <caption class="govuk-table__caption govuk-table__caption--m">[Report year]</caption>
                 <thead class="govuk-table__head">
@@ -43,10 +37,9 @@
                 </tbody>
             </table>
 
-            <h2 class="govuk-heading-l ">Categorised spending</h2>
-            <h2 class="govuk-heading-l ">Year on Year spending difference (if applicable)</h2>
-        </div>
-
+            <a href="/graphSummary" class="govuk-button" data-module="govuk-button">
+                Click to view spending summary
+            </a>
 
 
     </main>
