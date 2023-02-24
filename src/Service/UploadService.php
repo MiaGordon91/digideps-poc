@@ -90,6 +90,7 @@ class UploadService
             $moneyOutItem->setBankAccountType($dataRowUpdated['type_of_bank_account']);
             $moneyOutItem->setDescription($dataRowUpdated['description']);
             $moneyOutItem->setCategory($paymentCategory);
+            $moneyOutItem->setReportYear(new \DateTime('now'));
 
             $this->entityManager->persist($moneyOutItem);
             $this->entityManager->flush();

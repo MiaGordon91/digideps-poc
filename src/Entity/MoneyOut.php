@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\MoneyOutRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MoneyOutRepository::class)]
@@ -31,6 +32,9 @@ class MoneyOut
     #[ORM\ManyToOne(inversedBy: 'moneyOutPayments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $deputyUser = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $reportYear = null;
 
     public function getId(): ?int
     {
@@ -105,6 +109,18 @@ class MoneyOut
     public function setUserId(?User $deputyUser): self
     {
         $this->deputyUser = $deputyUser;
+
+        return $this;
+    }
+
+    public function getReportYear(): ?\DateTimeInterface
+    {
+        return $this->reportYear;
+    }
+
+    public function setReportYear(?\DateTimeInterface $reportYear): self
+    {
+        $this->reportYear = $reportYear;
 
         return $this;
     }
