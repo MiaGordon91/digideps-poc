@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DataController extends AbstractController
 {
     public function __construct(
-       private Security $security,
+        private Security $security,
     ) {
     }
 
@@ -35,21 +35,27 @@ class DataController extends AbstractController
      * @throws Exception
      */
     #[Route('/graphSummary', name: 'app_user')]
-    public function pieChart(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
+    public function graphOverview(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
     {
         $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
         $deputyIdArray = $itemRepository->findDeputyId($loggedInUsersEmail);
         $deputyId = implode('', $deputyIdArray[0]);
 
-        $categorySummary = $moneyOutRepository->findSummaryOfCategoryItemsByDeputyId($deputyId);
+        $currentYearCategorySummary = $moneyOutRepository->findCategoryItemSummaryByDeputyIdForCurrentYear($deputyId);
+        $previousAndCurrentCategorySummary = $moneyOutRepository->findCategoryItemSummaryByDeputyIdForCurrentAndPreviousYear($deputyId);
 
-        foreach ($categorySummary as &$value) {
+        foreach ($previousAndCurrentCategorySummary as &$value) {
+            $value['amount'] = $value['amount'] / 100;
+        }
+
+        foreach ($currentYearCategorySummary as &$value) {
             $value['amount'] = $value['amount'] / 100;
         }
 
         return $this->render('dataVisualisation.html.twig', [
             'title' => 'Money Out Payment Visual Summary',
-            'categorySummary' => $categorySummary,
+            'categorySummary' => $currentYearCategorySummary,
+            'yearOnYearSummary' => $previousAndCurrentCategorySummary,
         ]);
     }
 }

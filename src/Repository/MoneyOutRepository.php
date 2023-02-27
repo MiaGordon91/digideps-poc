@@ -53,7 +53,7 @@ class MoneyOutRepository extends ServiceEntityRepository
     /**
      * @throws \Doctrine\DBAL\Exception
      */
-    public function findSummaryOfCategoryItemsByDeputyId($deputyId): array
+    public function findCategoryItemSummaryByDeputyIdForCurrentYear($deputyId): array
     {
         $conn = $this->getEntityManager()
                 ->getConnection();
@@ -67,6 +67,31 @@ class MoneyOutRepository extends ServiceEntityRepository
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':deputyId', $deputyId);
+        $result = $stmt->executeQuery();
+
+        return $result->fetchAllAssociative();
+    }
+
+    /**
+     * @throws \Doctrine\DBAL\Exception
+     */
+    public function findCategoryItemSummaryByDeputyIdForCurrentAndPreviousYear($deputyId): array
+    {
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        $oneYearAgo = (new \DateTime('now'))->modify('-1 Year')->format('Y-m-d');
+
+        $sql = 'SELECT EXTRACT(year FROM report_year) as year , category,
+                SUM(amount) AS amount
+                FROM money_out
+                WHERE report_year >= :oneYearAgo
+                AND deputy_user_id = :deputyId
+                GROUP BY category, EXTRACT(year FROM report_year)';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':deputyId', $deputyId);
+        $stmt->bindValue(':oneYearAgo', $oneYearAgo);
         $result = $stmt->executeQuery();
 
         return $result->fetchAllAssociative();
