@@ -58,11 +58,15 @@ class MoneyOutRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()
                 ->getConnection();
 
-        $sql = 'SELECT category, SUM(amount) AS amount FROM money_out WHERE deputy_user_id = :deputyId GROUP BY category';
+        $sql = 'SELECT category,
+                SUM(amount) AS amount
+                FROM money_out
+                WHERE EXTRACT(year FROM report_year) = EXTRACT(year from current_date)
+                AND deputy_user_id = :deputyId
+                GROUP BY category';
 
         $stmt = $conn->prepare($sql);
         $stmt->bindValue(':deputyId', $deputyId);
-
         $result = $stmt->executeQuery();
 
         return $result->fetchAllAssociative();
