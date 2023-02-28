@@ -53,7 +53,7 @@ class DataController extends AbstractController
         }
 
         return $this->render('dataVisualisation.html.twig', [
-            'title' => 'Money Out Payment Visual Summary',
+            'title' => 'Money Out Payment Graph Overview',
             'categorySummary' => $currentYearCategorySummary,
             'yearOnYearSummary' => $previousAndCurrentCategorySummary,
         ]);
