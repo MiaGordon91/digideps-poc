@@ -23,7 +23,16 @@ describe('money out summary', () => {
 
 
 
-    it('user uploads money out file and views line by line items', () => {
+    it('table headings are correctly displayed to the user', () => {
+        const headings = ['Type', 'Description', 'Type of bank account','Amount']
+        cy.get('table thead th').then(($td) => {
+            const texts = Cypress._.map($td, 'innerText')
+            expect(texts, 'headings').to.deep.equal(headings)
+        })
+    });
+
+
+    it('user uploads money out file and successfully views line by line items', () => {
 
            cy.get('td:nth-child(1)').each(($el, index, $list) => {
                 var text= $el.text();
@@ -57,4 +66,11 @@ describe('money out summary', () => {
                }
         });
     });
+
+    it('confirms the table does not contain item that was not submitted', () => {
+        cy.get("tr td:nth-child(1)").eq(1)
+            .contains("Food shopping")
+            .should('not.exist')
+    })
+
 });
