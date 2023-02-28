@@ -28,7 +28,7 @@
                 <tbody class="govuk-table__body">
                 <tr class="govuk-table__row">
                     {% for moneyOutPayments in moneyOutPayments %}
-                        <td scope="row" class="govuk-table__header" id="paymentTypeHeaders">{{ moneyOutPayments.paymentType }}</td>
+                        <td class="row" class="govuk-table__header" id="paymentTypeHeaders">{{ moneyOutPayments.paymentType }}</td>
                         <td class="govuk-table__cell govuk-!-text-align-centre">{{ moneyOutPayments.description }}</td>
                         <td class="govuk-table__cell govuk-!-text-align-centre">{{ moneyOutPayments.bankAccountType }}</td>
                         <td class="govuk-table__cell govuk-!-text-align-centre" id="paymentAmounts">{{(moneyOutPayments.amount/100)| format_currency('GBP', {fraction_digit:2}) }}</td>
@@ -37,7 +37,7 @@
                 </tbody>
             </table>
 
-            <a href="/graphSummary" class="govuk-button" data-module="govuk-button">
+            <a href="/graphSummary" class="govuk-button" data-module="govuk-button" id="spendingSummaryButton">
                 Click to view spending summary
             </a>
 

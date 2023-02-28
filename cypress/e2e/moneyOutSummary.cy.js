@@ -73,4 +73,12 @@ describe('money out summary', () => {
             .should('not.exist')
     })
 
+
+    it('confirms graphs are visible to the user when they click onto the next page', () => {
+        cy.get('#spendingSummaryButton').click()
+        cy.url().should('eq', 'http://localhost:8000/graphSummary')
+        cy.get('#pie_chart_div').should('exist');
+        cy.get('#bar_chart_div').should('exist');
+    })
+
 });
