@@ -41,13 +41,23 @@ class MoneyOutRepository extends ServiceEntityRepository
 
     public function findPaymentItemsByDeputyId($deputyId): array
     {
-        return $this->createQueryBuilder('p')
-            ->select('p')
-            ->Where('p.deputyUser = :deputyId')
-            ->setParameter('deputyId', $deputyId)
-            ->orderBy('p.amount', 'ASC')
-            ->getQuery()
-            ->getResult();
+        $current_year = (new \DateTime('now'))->format('Y');
+
+        $conn = $this->getEntityManager()
+            ->getConnection();
+
+        $sql = 'SELECT *
+                FROM money_out
+                WHERE deputy_user_id = :deputyId
+                AND EXTRACT(year FROM report_year) = :current_year
+                ORDER BY amount';
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue(':deputyId', $deputyId);
+        $stmt->bindValue(':current_year', $current_year);
+        $result = $stmt->executeQuery();
+
+        return $result->fetchAllAssociative();
     }
 
     /**

@@ -23,7 +23,7 @@ class DataController extends AbstractController
         $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
         $deputyId = $itemRepository->findDeputyId($loggedInUsersEmail);
 
-        $moneyOutPayments = $moneyOutRepository->findPaymentItemsByDeputyId($deputyId);
+        $moneyOutPayments = $moneyOutRepository->findPaymentItemsByDeputyId(implode('', $deputyId[0]));
 
         return $this->render('moneyOutSummary.html.twig', [
             'title' => 'Money Out Payment Summary',

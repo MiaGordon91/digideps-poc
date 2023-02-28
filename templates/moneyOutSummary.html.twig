@@ -28,9 +28,9 @@
                 <tbody class="govuk-table__body">
                 <tr class="govuk-table__row">
                     {% for moneyOutPayments in moneyOutPayments %}
-                        <td class="row" class="govuk-table__header" id="paymentTypeHeaders">{{ moneyOutPayments.paymentType }}</td>
+                        <td scope="row" class="govuk-table__header" id="paymentTypeHeaders">{{ moneyOutPayments.payment_type }}</td>
                         <td class="govuk-table__cell govuk-!-text-align-centre">{{ moneyOutPayments.description }}</td>
-                        <td class="govuk-table__cell govuk-!-text-align-centre">{{ moneyOutPayments.bankAccountType }}</td>
+                        <td class="govuk-table__cell govuk-!-text-align-centre">{{ moneyOutPayments.bank_account_type }}</td>
                         <td class="govuk-table__cell govuk-!-text-align-centre" id="paymentAmounts">{{(moneyOutPayments.amount/100)| format_currency('GBP', {fraction_digit:2}) }}</td>
                 </tr>
                     {% endfor %}
