@@ -9,20 +9,42 @@
             <div class="govuk-grid-column-two-thirds" id="registerForm">
 
                 <h1 class="govuk-heading-xl">Register</h1>
+                <div>
+                <p class="govuk-body govuk-!-static-margin-bottom-5">Please provide your name, your email address, and your
+                    client's name and case number. This is so you can create your secure deputy account.</p>
+                </div>
 
-                <div class="govuk-label govuk-label--m" >
+
+                <div class="govuk-label--s">
 
                     {{ form_start(registrationForm) }}
-                            {{ form_row(registrationForm.email, {
-                                label: 'Email '
-                            }) }}
-                    <div class="govuk-form-group govuk-!-static-padding-top-5">
-                        {{ form_row(registrationForm.plainPassword, {
-                            label: 'Password '
-                        }) }}
-                    </div>
+
+                    <p class="govuk-heading-s ">{{"Your first name"}}</p>
+                        {{ form_widget(registrationForm.deputyFirstName) }}
+
+                    <p class="govuk-!-static-padding-top-5">{{"Your last name"}}</p>
+                        {{ form_widget (registrationForm.deputyLastName) }}
+
+                    <p class="govuk-!-static-padding-top-5">{{"Your email"}} </p>
+                        {{ form_widget (registrationForm.email) }}
+
+                    <p class="govuk-!-static-padding-top-5">{{"Client's first name"}}</p>
+                        {{ form_widget (registrationForm.clientsFirstNames) }}
+
+                    <p class="govuk-!-static-padding-top-5">{{"Client's last name"}}</p>
+                        {{ form_widget (registrationForm.clientsLastName) }}
+
+                    <p class="govuk-!-static-padding-top-5">{{"Client's case number"}}</p>
+                    <p class="govuk-hint ">This is 8 characters long and usually starts with a 1 or 9</p>
+                        {{ form_widget (registrationForm.clientsCaseNumber) }}
+
+                    <p class="govuk-!-static-padding-top-5">{{"Password"}}</p>
+                        {{ form_widget (registrationForm.plainPassword) }}
+
+                    <div class="govuk-!-static-padding-top-5">
                     <button type="submit" class="govuk-button" id="registerButton">Register</button>
                     {{ form_end(registrationForm) }}
+                    </div>
                 </div>
             </div>
         </div>

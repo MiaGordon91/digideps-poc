@@ -14,7 +14,9 @@
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-two-thirds">
                         <h1 class="govuk-heading-xl ">{{ title }} </h1>
-                        <p class="govuk-body">In this section, we ask you about money paid out of [clients first name] accounts between [insert report start date] and [report end date]</p>
+                        {% for clientDetails in clientDetails %}
+                        <p class="govuk-body">In this section, we ask you about money paid out of {{ clientDetails.clientsFirstNames }}'s accounts for this current report year.</p>
+                        {% endfor %}
                         <p class ="govuk-body govuk-body govuk-!-font-weight-bold">Enter a total amount or individual amounts for each type of payment.</p>
                         <p class ="govuk-body">For example, you can add one payment that covers the cost of rent for the whole reporting period, or you can add 12 payments - one for each month's rent</p>
 

@@ -23,6 +23,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $deputyFirstName = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $deputyLastName = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $clientsFirstNames = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $clientsLastName = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $clientsCaseNumber = null;
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -54,6 +69,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getDeputyFirstName(): ?string
+    {
+        return $this->deputyFirstName;
+    }
+
+    public function setDeputyFirstName(string $deputyFirstName): self
+    {
+        $this->deputyFirstName = $deputyFirstName;
+
+        return $this;
+    }
+
+    public function getDeputyLastName(): ?string
+    {
+        return $this->deputyLastName;
+    }
+
+    public function setDeputyLastName(string $deputyLastName): self
+    {
+        $this->deputyLastName = $deputyLastName;
+
+        return $this;
+    }
+
+    public function getClientsFirstNames(): ?string
+    {
+        return $this->clientsFirstNames;
+    }
+
+    public function setClientsFirstNames(string $clientsFirstNames): self
+    {
+        $this->clientsFirstNames = $clientsFirstNames;
+
+        return $this;
+    }
+
+    public function getClientsLastName(): ?string
+    {
+        return $this->clientsLastName;
+    }
+
+    public function setClientsLastName(string $clientsLastName): self
+    {
+        $this->clientsLastName = $clientsLastName;
+
+        return $this;
+    }
+
+    public function getClientsCaseNumber(): ?string
+    {
+        return $this->clientsCaseNumber;
+    }
+
+    public function setClientsCaseNumber(string $clientsCaseNumber): self
+    {
+        $this->clientsCaseNumber = $clientsCaseNumber;
 
         return $this;
     }
