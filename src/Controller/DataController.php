@@ -18,16 +18,19 @@ class DataController extends AbstractController
     }
 
     #[Route('/money_out_summary', name: 'money_out_summary')]
-    public function data(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
+    public function data(MoneyOutRepository $moneyOutRepository, UserRepository $userRepository): Response
     {
         $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
-        $deputyId = $itemRepository->findDeputyId($loggedInUsersEmail);
+        $deputyId = $userRepository->findDeputyId($loggedInUsersEmail);
+
+        $clientInformation = $userRepository->loadClientByIdentifier($loggedInUsersEmail);
 
         $moneyOutPayments = $moneyOutRepository->findPaymentItemsByDeputyId(implode('', $deputyId[0]));
 
         return $this->render('moneyOutSummary.html.twig', [
             'title' => 'Money Out Payment Summary',
             'moneyOutPayments' => $moneyOutPayments,
+            'clientInformation' => $clientInformation,
         ]);
     }
 
@@ -35,10 +38,10 @@ class DataController extends AbstractController
      * @throws Exception
      */
     #[Route('/graphSummary', name: 'app_user')]
-    public function graphOverview(MoneyOutRepository $moneyOutRepository, UserRepository $itemRepository): Response
+    public function graphOverview(MoneyOutRepository $moneyOutRepository, UserRepository $userRepository): Response
     {
         $loggedInUsersEmail = $this->security->getUser()->getUserIdentifier();
-        $deputyIdArray = $itemRepository->findDeputyId($loggedInUsersEmail);
+        $deputyIdArray = $userRepository->findDeputyId($loggedInUsersEmail);
         $deputyId = implode('', $deputyIdArray[0]);
 
         $currentYearCategorySummary = $moneyOutRepository->findCategoryItemSummaryByDeputyIdForCurrentYear($deputyId);

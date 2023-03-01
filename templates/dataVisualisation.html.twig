@@ -39,6 +39,7 @@
                     'title': 'Summary of categorised spending',
                     'width': 800,
                     'height': 500,
+                    'chartArea' : { left: "10%" }
                 };
 
                 var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
@@ -69,6 +70,7 @@
                     'title': 'Spending difference compared to previous year (if applicable)',
                     'width': 800,
                     'height': 500,
+                    'chartArea' : { left: "10%" }
                 };
 
                 var chart = new google.visualization.ColumnChart(document.getElementById('bar_chart_div'));
@@ -91,7 +93,7 @@
                         <h2 class="govuk-heading-l ">Categorised spending</h2>
                         <div id="pie_chart_div"></div>
 
-                        <h2 class="govuk-heading-l ">Year on year spending overview</h2>
+                        <h2 class="govuk-heading-l ">Year on year spending overview </h2>
                         <div id="bar_chart_div"></div>
                     </div>
                 </div>
