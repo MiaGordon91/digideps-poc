@@ -1,17 +1,29 @@
 describe('money out upload', () => {
 
-    beforeEach(() => {
-        cy.visit('http://localhost:8000/register')
-    })
-
     const generateEmail = require('random-email');
     const password = '1234567';
+    const deputyFirstName = 'James';
+    const deputyLastName = 'Jones';
+    const clientFirstName = 'Matthew';
+    const clientLastName = 'Peters';
+    const caseNumber = '10010010';
+
+    beforeEach(() => {
+        cy.visit('http://localhost:8000/register')
+        cy.get('[id=registration_form_deputyFirstName]').type(deputyFirstName)
+        cy.get('[id=registration_form_deputyLastName]').type(deputyLastName)
+        cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
+        cy.get('[id=registration_form_clientsFirstNames]').type(clientFirstName)
+        cy.get('[id=registration_form_clientsLastName]').type(clientLastName)
+        cy.get('[id=registration_form_clientsCaseNumber]').type(caseNumber)
+        cy.get('[id=registration_form_plainPassword]').type(password).then(response => ({...password}))
+
+        cy.get('#registerButton').click()
+    })
+
+
 
     it('user successfully uploads money out file', () => {
-
-        cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
-        cy.get('[id=registration_form_plainPassword]').type(password)
-        cy.get('#registerButton').click()
         cy.url().should('eq', 'http://localhost:8000/money_out')
 
         //Event listener added for 'click' which fires a page reload and triggers page load event

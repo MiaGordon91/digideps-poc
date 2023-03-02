@@ -3,13 +3,25 @@ describe('money out summary', () => {
     beforeEach(() => {
 
         const generateEmail = require('random-email');
+        const email = generateEmail({domain: 'example.com'});
         const password = '1234567';
+        const deputyFirstName = 'James';
+        const deputyLastName = 'Jones';
+        const clientFirstName = 'Matthew';
+        const clientLastName = 'Peters';
+        const caseNumber = '10010010';
 
         cy.visit('http://localhost:8000/register')
-
-        cy.get('[id=registration_form_email]').type(generateEmail({domain: 'example.com'}))
-        cy.get('[id=registration_form_plainPassword]').type(password)
+        cy.get('[id=registration_form_deputyFirstName]').type(deputyFirstName)
+        cy.get('[id=registration_form_deputyLastName]').type(deputyLastName)
+        cy.get('[id=registration_form_email]').type(email).then(response => ({...email}))
+        cy.get('[id=registration_form_clientsFirstNames]').type(clientFirstName)
+        cy.get('[id=registration_form_clientsLastName]').type(clientLastName)
+        cy.get('[id=registration_form_clientsCaseNumber]').type(caseNumber)
+        cy.get('[id=registration_form_plainPassword]').type(password).then(response => ({...password}))
         cy.get('#registerButton').click()
+        cy.intercept('POST', '/api/user/').as('waiting')
+
         cy.url().should('eq', 'http://localhost:8000/money_out')
 
         const filepath = './cypress/downloads/money_out_template.xlsx';
