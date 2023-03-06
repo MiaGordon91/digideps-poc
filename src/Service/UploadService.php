@@ -11,7 +11,8 @@ class UploadService
 {
     public function __construct(
         private SluggerInterface $slugger,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private DateTimeClass $dateTimeClass
     ) {
     }
 
@@ -90,7 +91,7 @@ class UploadService
             $moneyOutItem->setBankAccountType($dataRowUpdated['type_of_bank_account']);
             $moneyOutItem->setDescription($dataRowUpdated['description']);
             $moneyOutItem->setCategory($paymentCategory);
-            $moneyOutItem->setReportYear(new \DateTime('now'));
+            $moneyOutItem->setReportYear($this->dateTimeClass->now());
 
             $this->entityManager->persist($moneyOutItem);
             $this->entityManager->flush();
