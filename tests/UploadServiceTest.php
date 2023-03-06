@@ -19,9 +19,8 @@ use Symfony\Component\String\UnicodeString;
 class UploadServiceTest extends TestCase
 {
     use ProphecyTrait;
-    private $uploadService;
-    private $deputyUser;
-    private $fileValidation;
+
+    private UploadService $uploadService;
 
     private ObjectProphecy|EntityManagerInterface $entityManager;
     private ObjectProphecy|SluggerInterface $slugger;
