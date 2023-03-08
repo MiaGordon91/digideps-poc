@@ -16,8 +16,13 @@
 
             <h2 class="govuk-heading-l govuk-!-static-margin-top-3">Submitted payments</h2>
             <table class="govuk-table">
-                <caption class="govuk-table__caption govuk-table__caption--m">[Report year]</caption>
-                <thead class="govuk-table__head">
+                {% for clientInformation in clientInformation %}
+                <caption class="govuk-table__caption govuk-table__caption--s">Client's name: {{ clientInformation.clientsFirstNames }} {{ clientInformation.clientsLastName }}</caption>
+                <caption class="govuk-table__caption govuk-table__caption--s">Client's case number: {{ clientInformation.clientsCaseNumber }}</caption>
+                {% endfor %}
+                <caption class="govuk-table__caption govuk-table__caption--s govuk-!-static-margin-bottom-5">Report year: {{ "now"|date("Y") }}</caption>
+
+                <thead class="govuk-table__head ">
                 <tr class="govuk-table__row ">
                     <th scope="col" class="govuk-table__header">Type</th>
                     <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Description</th>

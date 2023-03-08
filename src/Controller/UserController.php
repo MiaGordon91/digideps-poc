@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\SpreadsheetUploadFormType;
+use App\Repository\UserRepository;
 use App\Service\SpreadsheetBuilder;
 use App\Service\UploadService;
 use PhpOffice\PhpSpreadsheet\Writer;
@@ -24,11 +25,12 @@ class UserController extends AbstractController
     }
 
     #[Route('/money_out', name: 'money_out')]
-    public function moneyOut(Request $request)
+    public function moneyOut(Request $request, UserRepository $userRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $loggedInUser = $this->security->getUser();
+        $clientDetails = $userRepository->loadClientByIdentifier($loggedInUser->getUserIdentifier());
 
         $form = $this->createForm(SpreadsheetUploadFormType::class, null, [
             'method' => 'POST',
@@ -64,6 +66,7 @@ class UserController extends AbstractController
         return $this->render('moneyOut.html.twig', [
             'title' => 'Money out',
             'uploadForm' => $form->createView(),
+            'clientDetails' => $clientDetails,
         ]);
     }
 

@@ -60,6 +60,7 @@
                     <a href="/money_out" class="govuk-header__link govuk-header__service-name govuk-grid-column-two-thirds">
                         Complete the deputy report
                     </a>
+                    {% if app.user %}
                     <nav aria-label="Menu" class="govuk-header__navigation govuk-grid-column-one-third">
                         <button type="button" class="govuk-header__menu-button govuk-js-header-toggle" aria-controls="navigation" aria-label="Show or hide menu" hidden>Menu</button>
                         <ul id="navigation" class="govuk-header__navigation-list govuk-!-text-align-right ">
@@ -70,6 +71,7 @@
                             </li>
                         </ul>
                     </nav>
+                    {% endif %}
                 </div>
                 </div>
         </header>

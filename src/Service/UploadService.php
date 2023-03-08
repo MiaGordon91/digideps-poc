@@ -11,7 +11,8 @@ class UploadService
 {
     public function __construct(
         private SluggerInterface $slugger,
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private DateTimeClass $dateTimeClass
     ) {
     }
 
@@ -20,9 +21,10 @@ class UploadService
         $fileName = $file->getClientOriginalName();
 
         $originalFileName = pathinfo($fileName, PATHINFO_FILENAME);
+
         $safeFileName = $this->slugger->slug($originalFileName);
 
-        return $safeFileName.'-'.uniqid().'.'.$file->guessExtension();
+        return $safeFileName.'.'.$file->guessExtension();
     }
 
     public function processForm($filePathLocation, $loggedInUser): string
@@ -81,7 +83,6 @@ class UploadService
 
             $dataRowUpdated = $this->checkPaymentTypes($dataRow);
             $amountValidated = $this->validateAmount($dataRowUpdated);
-
             $paymentCategory = $this->addCategoryType($dataRowUpdated);
 
             $moneyOutItem->setUserId($loggedInUser);
@@ -90,7 +91,7 @@ class UploadService
             $moneyOutItem->setBankAccountType($dataRowUpdated['type_of_bank_account']);
             $moneyOutItem->setDescription($dataRowUpdated['description']);
             $moneyOutItem->setCategory($paymentCategory);
-            $moneyOutItem->setReportYear(new \DateTime('now'));
+            $moneyOutItem->setReportYear($this->dateTimeClass->now());
 
             $this->entityManager->persist($moneyOutItem);
             $this->entityManager->flush();
@@ -100,8 +101,7 @@ class UploadService
     private function checkPaymentTypes($dataRow)
     {
         $paymentTypes =
-            ['Care Fees', 'Clothes', 'Broadband', 'Council Tax',
-            'Electricity', 'Food', 'Rent', 'Medical Expenses',
+            ['Care Fees', 'Clothes', 'Broadband', 'Council Tax', 'Electricity', 'Food', 'Rent', 'Medical Expenses',
             'Mortgage', 'Personal Allowance', 'Water', 'Wifi'];
 
         if (in_array($dataRow['payment_type'], $paymentTypes)) {
@@ -115,8 +115,6 @@ class UploadService
 
 //        if float, drop decimal and convert to pennies, if not float x 100
         return is_float($amount) ? (int) round((float) $amount * 100) : $amount * 100;
-
-        // need to throw an error if there's letters
     }
 
     private function addCategoryType($dataRowUpdated): string
