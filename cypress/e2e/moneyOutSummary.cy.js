@@ -24,7 +24,7 @@ describe('money out summary', () => {
 
         cy.url().should('eq', 'http://localhost:8000/money_out')
 
-        const filepath = './cypress/downloads/money_out_template.xlsx';
+        const filepath = './cypress/uploads/money_out_template.xlsx';
         cy.get('input[type=file]').selectFile(filepath)
         cy.get('#upload').click()
         cy.get('#flashMessage').should('be.visible')
