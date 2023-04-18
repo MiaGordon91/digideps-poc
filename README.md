@@ -1,6 +1,6 @@
-Digideps Proof of Concept
+**Digideps Proof of Concept**
 
-“Web application to automate the analysis of submitted financial information in a deputy report”
+_“Web application to automate the analysis of submitted financial information in a deputy report”_
 
 My project focuses on building a full-stack web application where deputies can submit all payments via a single spreadsheet and automates the analysis of their financial information through user-friendly graphs.
 
@@ -10,7 +10,7 @@ This provides an opportunity for the following:
 - Point of reference to flag discrepancies, which will improve the financial accuracy of submitted deputy reports. This will in turn assist caseworkers when checking submitted deputy reports for safeguarding purposes.
 - A solid basis for further automated data analysis in other parts of the reporting process.
 
-The hosted app can be viewed here - http://digidepsdeployedpoc-env.eba-xpg7c2zd.eu-west-1.elasticbeanstalk.com/   
+**The hosted app can be viewed here** - http://digidepsdeployedpoc-env.eba-xpg7c2zd.eu-west-1.elasticbeanstalk.com/   
 
 To run web server using localhost:
 - type 'symfony server:start –d'
