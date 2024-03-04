@@ -10,7 +10,7 @@ This provides an opportunity for the following:
 - Point of reference to flag discrepancies, which will improve the financial accuracy of submitted deputy reports. This will in turn assist caseworkers when checking submitted deputy reports for safeguarding purposes.
 - A solid basis for further automated data analysis in other parts of the reporting process.
 
-**The hosted app can be viewed here** - http://digidepsdeployedpoc-env.eba-xpg7c2zd.eu-west-1.elasticbeanstalk.com/   
+**A video demonstration of the deployed proof of concept and how it interacts with the database can be viewed here** - https://www.youtube.com/watch?v=OEQFdxO8CoU. 
 
 To run web server using localhost:
 - type 'symfony server:start –d'
